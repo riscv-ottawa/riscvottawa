@@ -1,0 +1,73 @@
+[package]
+name = "riscvottawa"
+version = "0.1.0"
+edition = "2021"
+description = "RISC-V Ottawa group homepage"
+license = "MIT OR Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+leptos = { version = "0.8" }
+leptos_router = { version = "0.8" }
+leptos_meta = { version = "0.8" }
+leptos_axum = { version = "0.8", optional = true }
+
+axum = { version = "0.8", optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"], optional = true }
+tower = { version = "0.5", optional = true }
+tower-http = { version = "0.6", features = ["fs"], optional = true }
+
+console_error_panic_hook = "0.1"
+wasm-bindgen = { version = "=0.2.100", optional = true }
+web-sys = { version = "0.3", optional = true, features = ["Storage"] }
+
+serde = { version = "1", features = ["derive"] }
+time = { version = "0.3", features = ["serde-well-known", "macros"] }
+toml = { version = "0.8", optional = true }
+
+http = "1"
+
+[features]
+hydrate = [
+    "leptos/hydrate",
+    "dep:wasm-bindgen",
+    "dep:web-sys",
+]
+ssr = [
+    "dep:axum",
+    "dep:tokio",
+    "dep:tower",
+    "dep:tower-http",
+    "dep:leptos_axum",
+    "dep:toml",
+    "leptos/ssr",
+    "leptos_meta/ssr",
+    "leptos_router/ssr",
+]
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[package.metadata.leptos]
+output-name = "riscvottawa"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+style-file = "style/main.css"
+tailwind-input-file = "style/main.css"
+assets-dir = "public"
+site-addr = "127.0.0.1:3000"
+reload-port = 3001
+browserquery = "defaults"
+watch = false
+env = "DEV"
+bin-features = ["ssr"]
+bin-default-features = false
+lib-features = ["hydrate"]
+lib-default-features = false
+lib-profile-release = "wasm-release"
