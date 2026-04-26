@@ -1,0 +1,9 @@
+target
+.git
+.github
+node_modules
+.env
+*.swp
+*.log
+.DS_Store
+PLAN.md
