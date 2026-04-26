@@ -1,6 +1,5 @@
 title = "RISC-V Embedded Systems Training (VEGA edition)"
 level = "beginner"
-duration = "4 hours"
 summary = "Learn the basics of firmware development using the OpenISA VEGAboard (RV32M1-VEGA) development board"
 description = """
 Includes how to setup a modern containerized embedded systems development environment,
@@ -10,4 +9,4 @@ and the basics of real-time operating systems (RTOS) and Zephyr.
 In the end, the hope is for to you gain fundamental generalizable knowledge relating to the development of firmware for microcontroller-based systems.
 """
 prerequisites = ["basic C", "Linux", "shell"]
-website_url = "https://github.com/riscv-ottawa/vega-training"
+website_url = "https:/vega.riscvottawa.ca"
