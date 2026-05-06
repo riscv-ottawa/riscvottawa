@@ -17,6 +17,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <script inner_html=THEME_INIT_SCRIPT></script>
                 <meta name="theme-color" content="#11141a" media="(prefers-color-scheme: dark)"/>
                 <meta name="theme-color" content="#f7f5f0" media="(prefers-color-scheme: light)"/>
+                <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
                 <AutoReload options=options.clone()/>
                 <HydrationScripts options=options.clone()/>
                 <HashedStylesheet id="leptos" options=options/>
