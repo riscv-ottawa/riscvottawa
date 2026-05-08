@@ -4,8 +4,7 @@ use leptos_meta::Title;
 
 #[component]
 pub fn Resources() -> impl IntoView {
-    let sections =
-        Resource::new_blocking(|| (), |_| async move { get_resource_sections().await });
+    let sections = Resource::new_blocking(|| (), |_| async move { get_resource_sections().await });
 
     view! {
         <Title text="Resources - RISC-V Ottawa"/>
