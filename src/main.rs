@@ -18,9 +18,10 @@ async fn main() {
         }
     };
     println!(
-        "loaded {} events, {} trainings",
+        "loaded {} events, {} trainings, {} resources",
         store.events.len(),
-        store.trainings.len()
+        store.trainings.len(),
+        store.resources.len()
     );
 
     let conf = get_configuration(None).expect("failed to load leptos configuration");

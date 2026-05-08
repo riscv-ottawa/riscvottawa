@@ -1,0 +1,13 @@
+title = "Community"
+
+[[links]]
+name = "RISC-V International"
+href = "https://riscv.org"
+
+[[links]]
+name = "The FOSSi Foundation"
+href = "https://fossi-foundation.org"
+
+[[links]]
+name = "Tiny Tapeout"
+href = "https://tinytapeout.com"

@@ -1,0 +1,17 @@
+title = "Official resources"
+
+[[links]]
+name = "RISC-V Exchange"
+href = "https://riscv.org/exchange/"
+
+[[links]]
+name = "RISC-V Summit"
+href = "https://riscv.org/community/risc-v-summits/"
+
+[[links]]
+name = "Learn RISC-V (GitHub)"
+href = "https://github.com/riscv/learn"
+
+[[links]]
+name = "RISC-V Technical Wiki"
+href = "https://riscv.atlassian.net/wiki/spaces/HOME/overview"

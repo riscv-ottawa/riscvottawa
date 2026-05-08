@@ -1,0 +1,29 @@
+title = "Hardware description languages (HDLs)"
+
+[[links]]
+name = "SystemVerilog"
+href = "https://standards.ieee.org/ieee/1800/7743/"
+
+[[links]]
+name = "VHDL"
+href = "https://ieeexplore.ieee.org/document/8938196"
+
+[[links]]
+name = "Bluespec SystemVerilog"
+href = "https://github.com/B-Lang-org/bsc"
+
+[[links]]
+name = "Spade"
+href = "https://spade-lang.org/"
+
+[[links]]
+name = "Chisel"
+href = "https://www.chisel-lang.org/"
+
+[[links]]
+name = "SpinalHDL"
+href = "https://spinalhdl.github.io/SpinalDoc-RTD/"
+
+[[links]]
+name = "Amaranth"
+href = "https://amaranth-lang.org/docs/amaranth/latest/"

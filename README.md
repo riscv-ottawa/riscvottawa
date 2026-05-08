@@ -21,7 +21,7 @@ Open <http://localhost:3000>. The watcher rebuilds on changes to `src/`, `style/
 
 ## Adding content
 
-Add or remove files under `content/events/` and `content/trainings/`.
+Add or remove files under `content/events/`, `content/trainings/`, and `content/resources/`.
 The server loads everything at startup and aborts with a clear error if any file fails to parse.
 
 ### A new event
@@ -54,6 +54,28 @@ Long form description.
 """
 prerequisites = ["basic C", "shell"]
 contact_url = "mailto:trainings@riscvottawa.org"   # optional
+```
+
+### A new resource section or link
+
+Resources are grouped into sections under `content/resources/`. Each file is one section, named `<NN>-<slug>.toml`. The numeric prefix controls display order (lower numbers appear first).
+
+To add a link to an existing section, open the corresponding file and append a `[[links]]` entry:
+
+```toml
+[[links]]
+name = "Display name"
+href = "https://example.com"
+```
+
+To add a new section, create `content/resources/<NN>-<slug>.toml`:
+
+```toml
+title = "Section heading"
+
+[[links]]
+name = "First link"
+href = "https://example.com"
 ```
 
 ## Production build

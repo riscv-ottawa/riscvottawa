@@ -31,6 +31,12 @@ pub fn Nav() -> impl IntoView {
                         >
                             "events"
                         </A>
+                        <A
+                            href="/resources"
+                            attr:class="hidden text-mute transition-colors hover:text-ink md:inline"
+                        >
+                            "resources"
+                        </A>
                         <ThemeToggle/>
                         <a
                             href="https://github.com/riscv-ottawa"
@@ -101,10 +107,17 @@ pub fn Nav() -> impl IntoView {
                     </A>
                     <A
                         href="/events"
-                        attr:class="py-3 text-mute transition-colors hover:text-ink"
+                        attr:class="border-b border-line py-3 text-mute transition-colors hover:text-ink"
                         on:click=close
                     >
                         "events"
+                    </A>
+                    <A
+                        href="/resources"
+                        attr:class="py-3 text-mute transition-colors hover:text-ink"
+                        on:click=close
+                    >
+                        "resources"
                     </A>
                 </nav>
             </div>

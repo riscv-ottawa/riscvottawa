@@ -1,0 +1,25 @@
+title = "Proprietary design & verification tooling"
+
+[[links]]
+name = "AMD (Xilinx)"
+href = "https://www.amd.com/en/products/software/adaptive-socs-and-fpgas.html"
+
+[[links]]
+name = "Lattice Semiconductor"
+href = "https://www.latticesemi.com/"
+
+[[links]]
+name = "Synopsys"
+href = "https://www.synopsys.com/"
+
+[[links]]
+name = "Cadence"
+href = "https://www.cadence.com/"
+
+[[links]]
+name = "Siemens EDA"
+href = "https://eda.sw.siemens.com/"
+
+[[links]]
+name = "Intel (Altera)"
+href = "https://www.intel.com/content/www/us/en/products/programmable.html"

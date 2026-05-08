@@ -1,5 +1,5 @@
 use crate::components::{footer::Footer, nav::Nav};
-use crate::pages::{events::Events, home::Home, trainings::Trainings};
+use crate::pages::{events::Events, home::Home, resources::Resources, trainings::Trainings};
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, HashedStylesheet, Meta, MetaTags, Title};
 use leptos_router::components::{Route, Router, Routes};
@@ -46,6 +46,7 @@ pub fn App() -> impl IntoView {
                         <Route path=StaticSegment("") view=Home/>
                         <Route path=StaticSegment("trainings") view=Trainings/>
                         <Route path=StaticSegment("events") view=Events/>
+                        <Route path=StaticSegment("resources") view=Resources/>
                     </Routes>
                 </main>
                 <Footer/>

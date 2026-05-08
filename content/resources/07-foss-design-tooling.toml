@@ -1,0 +1,41 @@
+title = "FOSS design tooling"
+
+[[links]]
+name = "Yosys"
+href = "https://yosyshq.net/yosys/"
+
+[[links]]
+name = "nextpnr"
+href = "https://github.com/YosysHQ/nextpnr"
+
+[[links]]
+name = "FuseSoC"
+href = "https://fusesoc.readthedocs.io/en/stable/user/"
+
+[[links]]
+name = "LibreLane"
+href = "https://fossi-foundation.org/librelane/"
+
+[[links]]
+name = "OpenROAD"
+href = "https://openroad.readthedocs.io/en/latest/index.html"
+
+[[links]]
+name = "GDSFactory"
+href = "https://gdsfactory.github.io/gdsfactory/index.html"
+
+[[links]]
+name = "SiliconCompiler"
+href = "https://www.siliconcompiler.com/"
+
+[[links]]
+name = "Circuit IR Compilers and Tools (CIRCT)"
+href = "https://circt.llvm.org/"
+
+[[links]]
+name = "FPGA Architecture Visualizer"
+href = "https://fpga-architecture-visualizer.web.app/"
+
+[[links]]
+name = "PeakRDL"
+href = "https://peakrdl.readthedocs.io/en/latest/"

@@ -1,0 +1,37 @@
+title = "FOSS verification tooling"
+
+[[links]]
+name = "Verilator"
+href = "https://www.veripool.org/verilator/"
+
+[[links]]
+name = "Icarus Verilog"
+href = "https://steveicarus.github.io/iverilog/"
+
+[[links]]
+name = "cocotb"
+href = "https://www.cocotb.org/"
+
+[[links]]
+name = "microcotb"
+href = "https://github.com/psychogenic/microcotb"
+
+[[links]]
+name = "GTKWave"
+href = "https://gtkwave.sourceforge.net/"
+
+[[links]]
+name = "Surfer"
+href = "https://surfer-project.org/"
+
+[[links]]
+name = "Vaporview"
+href = "https://github.com/Lramseyer/vaporview"
+
+[[links]]
+name = "DSim"
+href = "https://altair.com/dsim"
+
+[[links]]
+name = "JPDB: GDB for waveforms"
+href = "https://github.com/1024bees/dang"

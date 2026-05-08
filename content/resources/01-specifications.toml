@@ -1,0 +1,17 @@
+title = "Specifications"
+
+[[links]]
+name = "RISC-V Ratified Specifications Library"
+href = "https://docs.riscv.org/reference/home/index.html"
+
+[[links]]
+name = "RISC-V Specification Development Dashboard"
+href = "https://riscv.github.io/adm-spec-dashboard"
+
+[[links]]
+name = "Formal Specification of the RISC-V ISA (SAIL)"
+href = "https://github.com/riscv/sail-riscv"
+
+[[links]]
+name = "RISC-V ISA Manuals (GitHub)"
+href = "https://github.com/riscv/riscv-isa-manual"

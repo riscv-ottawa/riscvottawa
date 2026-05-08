@@ -1,4 +1,4 @@
-use super::{Event, Training};
+use super::{Event, ResourceSection, Training};
 use std::fmt;
 use std::fs;
 use std::io;
@@ -9,6 +9,7 @@ use std::sync::Arc;
 pub struct ContentStore {
     pub events: Arc<[Event]>,
     pub trainings: Arc<[Training]>,
+    pub resources: Arc<[ResourceSection]>,
 }
 
 #[derive(Debug)]
@@ -51,11 +52,13 @@ impl ContentStore {
         let root = root.as_ref();
         let mut events = load_events(&root.join("events"))?;
         let mut trainings = load_trainings(&root.join("trainings"))?;
+        let resources = load_resources(&root.join("resources"))?;
         events.sort_by_key(|e| e.date);
         trainings.sort_by(|a, b| a.slug.cmp(&b.slug));
         Ok(Self {
             events: events.into(),
             trainings: trainings.into(),
+            resources: resources.into(),
         })
     }
 }
@@ -71,6 +74,29 @@ fn load_events(dir: &Path) -> Result<Vec<Event>, LoadError> {
         out.push(event);
     }
     Ok(out)
+}
+
+fn load_resources(dir: &Path) -> Result<Vec<ResourceSection>, LoadError> {
+    let mut out = Vec::new();
+    for (raw_slug, contents, path) in read_toml_dir(dir)? {
+        let mut section: ResourceSection =
+            toml::from_str(&contents).map_err(|error| LoadError::Parse {
+                path: path.clone(),
+                error,
+            })?;
+        section.slug = strip_order_prefix(&raw_slug);
+        out.push(section);
+    }
+    Ok(out)
+}
+
+fn strip_order_prefix(slug: &str) -> String {
+    if let Some((head, tail)) = slug.split_once('-') {
+        if !head.is_empty() && head.chars().all(|c| c.is_ascii_digit()) {
+            return tail.to_string();
+        }
+    }
+    slug.to_string()
 }
 
 fn load_trainings(dir: &Path) -> Result<Vec<Training>, LoadError> {

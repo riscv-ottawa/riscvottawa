@@ -1,0 +1,17 @@
+title = "Books"
+
+[[links]]
+name = "The RISC-V Reader: An Open Architecture Atlas (Patterson & Waterman)"
+href = "http://riscvbook.com/"
+
+[[links]]
+name = "Computer Organization and Design: RISC-V Edition (Patterson & Hennessy)"
+href = "https://www.elsevier.com/books/computer-organization-and-design-risc-v-edition/patterson/978-0-12-820331-6"
+
+[[links]]
+name = "Digital Design and Computer Architecture, RISC-V Edition (Harris & Harris)"
+href = "https://www.elsevier.com/books/digital-design-and-computer-architecture-risc-v-edition/harris/978-0-12-820064-3"
+
+[[links]]
+name = "RISC-V System-on-Chip Design (Harris & Stine & Thompson & Harris)"
+href = "https://pages.hmc.edu/harris/ddca/rvsocd.html"

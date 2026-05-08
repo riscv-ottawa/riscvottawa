@@ -1,7 +1,9 @@
 pub mod event;
+pub mod resource;
 pub mod training;
 
 pub use event::Event;
+pub use resource::{ResourceLink, ResourceSection};
 pub use training::{Level, Training};
 
 use leptos::prelude::*;
@@ -25,6 +27,12 @@ pub struct EventsPageData {
 pub async fn get_trainings() -> Result<Vec<Training>, ServerFnError> {
     let store = expect_context::<ContentStore>();
     Ok(store.trainings.iter().cloned().collect())
+}
+
+#[server(GetResourceSections, "/api")]
+pub async fn get_resource_sections() -> Result<Vec<ResourceSection>, ServerFnError> {
+    let store = expect_context::<ContentStore>();
+    Ok(store.resources.iter().cloned().collect())
 }
 
 #[server(GetUpcomingEvents, "/api")]
