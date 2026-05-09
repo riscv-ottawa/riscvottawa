@@ -3,15 +3,24 @@ title = "Specifications"
 [[links]]
 name = "RISC-V Ratified Specifications Library"
 href = "https://docs.riscv.org/reference/home/index.html"
+description = "Browsable index of all ratified RISC-V ISA, platform, and ABI specifications."
 
 [[links]]
 name = "RISC-V Specification Development Dashboard"
 href = "https://riscv.github.io/adm-spec-dashboard"
+description = "Live status tracker for in-progress RISC-V specifications and their ratification stage."
 
 [[links]]
 name = "Formal Specification of the RISC-V ISA (SAIL)"
 href = "https://github.com/riscv/sail-riscv"
+description = "Executable golden model of the ISA written in the Sail language, primarily used for conformance testing."
 
 [[links]]
 name = "RISC-V ISA Manuals (GitHub)"
 href = "https://github.com/riscv/riscv-isa-manual"
+description = "Source repository for the unprivileged and privileged ISA manuals, including drafts."
+
+[[links]]
+name = "RISC-V Green Card"
+href = "https://www.riscvbook.com/greencard-20181213.pdf"
+description = "A handy single-page reference summarizing base instructions, registers, and common extensions."

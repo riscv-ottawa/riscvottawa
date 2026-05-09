@@ -3,39 +3,49 @@ title = "FOSS design tooling"
 [[links]]
 name = "Yosys"
 href = "https://yosyshq.net/yosys/"
+description = "Open synthesis suite for Verilog, supports multiple FPGA backends."
 
 [[links]]
 name = "nextpnr"
 href = "https://github.com/YosysHQ/nextpnr"
+description = "Vendor-neutral place-and-route tool targeting iCE40, ECP5, Nexus, and Gowin FPGAs."
 
 [[links]]
 name = "FuseSoC"
 href = "https://fusesoc.readthedocs.io/en/stable/user/"
+description = "Package manager and build orchestrator for HDL IP cores across multiple toolchains."
 
 [[links]]
 name = "LibreLane"
 href = "https://fossi-foundation.org/librelane/"
+description = "Open-source RTL-to-GDSII flow for digital ASICs, successor to OpenLane."
 
 [[links]]
 name = "OpenROAD"
 href = "https://openroad.readthedocs.io/en/latest/index.html"
+description = "Autonomous physical design flow covering floorplan, placement, CTS, and routing."
 
 [[links]]
 name = "GDSFactory"
 href = "https://gdsfactory.github.io/gdsfactory/index.html"
+description = "Python framework for programmatic layout and PDK-aware GDSII generation."
 
 [[links]]
 name = "SiliconCompiler"
 href = "https://www.siliconcompiler.com/"
+description = "Modular hardware build system that drives open and commercial flows from a unified API."
 
 [[links]]
 name = "Circuit IR Compilers and Tools (CIRCT)"
 href = "https://circt.llvm.org/"
+description = "LLVM-style IR and compiler infrastructure for hardware design languages."
 
 [[links]]
 name = "FPGA Architecture Visualizer"
 href = "https://fpga-architecture-visualizer.web.app/"
+description = "Interactive viewer for exploring FPGA fabric topologies and routing structures."
 
 [[links]]
 name = "PeakRDL"
 href = "https://peakrdl.readthedocs.io/en/latest/"
+description = "Toolkit for compiling SystemRDL register descriptions into RTL, headers, and docs."

@@ -3,15 +3,19 @@ title = "Toolchains"
 [[links]]
 name = "riscv-gnu-toolchain"
 href = "https://github.com/riscv-collab/riscv-gnu-toolchain"
+description = "Upstream meta-repository to build GCC, Binutils, glibc, and newlib for RISC-V targets."
 
 [[links]]
 name = "LLVM RISC-V backend"
 href = "https://llvm.org/docs/RISCVUsage.html"
+description = "Official documentation for Clang and LLVM's RISC-V code generation and supported extensions."
 
 [[links]]
 name = "Rust RISC-V targets"
 href = "https://doc.rust-lang.org/rustc/platform-support.html"
+description = "Tier listings and notes for Rust's bare-metal and Linux RISC-V compilation targets."
 
 [[links]]
 name = "picolibc"
 href = "https://github.com/picolibc/picolibc"
+description = "Small C library tuned for embedded RISC-V and other deeply embedded targets."

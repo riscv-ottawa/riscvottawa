@@ -3,11 +3,29 @@ title = "Community"
 [[links]]
 name = "RISC-V International"
 href = "https://riscv.org"
+description = "Non-profit body that stewards the RISC-V ISA and coordinates its technical groups."
+
+[[links]]
+name = "OpenHW Foundation"
+href = "https://openhwfoundation.org"
+description = "Industry consortium developing verified open-source RISC-V cores like the CORE-V family."
+
+[[links]]
+name = "CHIPS Alliance"
+href = "https://chipsalliance.org/"
+description = "Linux Foundation project hosting open hardware, IP, and EDA tooling collaborations."
+
+[[links]]
+name = "ChipFoundry"
+href = "https://chipfoundry.io/"
+description = "Open-silicon shuttle service offering shared tape-outs on production PDKs."
 
 [[links]]
 name = "The FOSSi Foundation"
 href = "https://fossi-foundation.org"
+description = "Advocacy organisation for free and open-source silicon, host of LibreCores and the awesome Latch-Up/ORConf events."
 
 [[links]]
 name = "Tiny Tapeout"
 href = "https://tinytapeout.com"
+description = "Educational program letting hobbyists submit small designs onto a shared ASIC tape-out."

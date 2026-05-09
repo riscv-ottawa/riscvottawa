@@ -3,35 +3,44 @@ title = "FOSS verification tooling"
 [[links]]
 name = "Verilator"
 href = "https://www.veripool.org/verilator/"
+description = "High-performance Verilog/SystemVerilog simulator that compiles RTL and testbenches to C++ or SystemC."
 
 [[links]]
 name = "Icarus Verilog"
 href = "https://steveicarus.github.io/iverilog/"
+description = "Lightweight event-driven Verilog simulator."
 
 [[links]]
 name = "cocotb"
 href = "https://www.cocotb.org/"
+description = "Python-based coroutine framework for writing testbenches against any HDL simulator."
 
 [[links]]
 name = "microcotb"
 href = "https://github.com/psychogenic/microcotb"
+description = "Minimal cocotb-style runner targeting MicroPython and small embedded environments."
 
 [[links]]
 name = "GTKWave"
 href = "https://gtkwave.sourceforge.net/"
+description = "Long-standing waveform viewer supporting VCD, FST, and LXT trace formats."
 
 [[links]]
 name = "Surfer"
 href = "https://surfer-project.org/"
+description = "Modern Rust-based waveform viewer with a focus on responsiveness and ergonomics."
 
 [[links]]
 name = "Vaporview"
 href = "https://github.com/Lramseyer/vaporview"
+description = "VS Code extension for viewing waveforms directly inside the editor."
 
 [[links]]
 name = "DSim"
 href = "https://altair.com/dsim"
+description = "Free SystemVerilog/UVM simulator from Altair, available for non-commercial use."
 
 [[links]]
 name = "JPDB: GDB for waveforms"
 href = "https://github.com/1024bees/dang"
+description = "Debugger-style interface for stepping through waveforms like a software trace."

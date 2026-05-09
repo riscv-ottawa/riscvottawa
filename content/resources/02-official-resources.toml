@@ -3,15 +3,19 @@ title = "Official resources"
 [[links]]
 name = "RISC-V Exchange"
 href = "https://riscv.org/exchange/"
+description = "Directory of RISC-V cores, SoCs, software, and development boards from member organizations."
 
 [[links]]
 name = "RISC-V Summit"
 href = "https://riscv.org/community/risc-v-summits/"
+description = "Homepage of the annual flagship conference hosting talks and announcements from across the RISC-V ecosystem."
 
 [[links]]
 name = "Learn RISC-V (GitHub)"
 href = "https://github.com/riscv/learn"
+description = "Curated entry point with tutorials, courses, and reading lists for newcomers to the ISA."
 
 [[links]]
 name = "RISC-V Technical Wiki"
 href = "https://riscv.atlassian.net/wiki/spaces/HOME/overview"
+description = "Working documentation for technical groups, task groups, and specification development processes."

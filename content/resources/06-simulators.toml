@@ -3,15 +3,19 @@ title = "Simulators & emulators"
 [[links]]
 name = "Spike (riscv-isa-sim)"
 href = "https://github.com/riscv-software-src/riscv-isa-sim"
+description = "Reference functional ISA simulator maintained alongside the specification."
 
 [[links]]
 name = "QEMU RISC-V"
 href = "https://www.qemu.org/docs/master/system/target-riscv.html"
+description = "The standard full-system emulator supporting RV32/RV64, virtio devices, and Linux boot."
 
 [[links]]
 name = "Renode"
 href = "https://renode.io/"
+description = "Multi-node simulation framework for embedded RISC-V SoCs, peripherals, and networks."
 
 [[links]]
 name = "Whisper"
 href = "https://github.com/chipsalliance/SweRV-ISS"
+description = "Western Digital's RISC-V instruction-set simulator originally built for the SweRV cores."

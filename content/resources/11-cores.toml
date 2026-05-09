@@ -1,0 +1,26 @@
+title = "FOSS cores"
+
+[[links]]
+name = "OpenHW CORE-V cores (CVE2, CVE4, CVA6)"
+href = "https://docs.openhwgroup.org/en/latest/index.html"
+description = "Industrial-grade, verified RISC-V cores spanning microcontroller to application class."
+
+[[links]]
+name = "OpenTitan"
+href = "https://opentitan.org/"
+description = "Open-source silicon root of trust (RoT) built around the Ibex core."
+
+[[links]]
+name = "Ibex CPU"
+href = "https://lowrisc.org/ibex/"
+description = "Small, efficient 32-bit RISC-V core from lowRISC, widely used in research and SoCs."
+
+[[links]]
+name = "CHERIoT-Ibex"
+href = "https://github.com/microsoft/cheriot-ibex"
+description = "Microsoft's CHERI-extended Ibex variant adding hardware capability-based memory safety."
+
+[[links]]
+name = "Hazard3"
+href = "https://github.com/Wren6991/Hazard3"
+description = "Compact 3-stage RV32 core, notably one of the cores shipped inside Raspberry Pi's RP2350."

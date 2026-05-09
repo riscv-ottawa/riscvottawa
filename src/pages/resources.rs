@@ -14,7 +14,7 @@ pub fn Resources() -> impl IntoView {
                 "Resources"
             </h1>
             <p class="mt-4 max-w-2xl text-mute">
-                "A curated directory of RISC-V related links: toolchains, books, simulators, hardware, and more."
+                "A curated directory of RISC-V related links: specifications, books, tools, communities, and more."
             </p>
 
             <Suspense fallback=|| view! { <ListSkeleton/> }>
@@ -116,9 +116,16 @@ fn SectionBlock(section: ResourceSection) -> impl IntoView {
                                         href=link.href
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="block py-3 text-mute transition-colors hover:text-accent-soft"
+                                        class="group block py-3 text-mute transition-colors hover:text-accent-soft"
                                     >
-                                        {link.name}
+                                        <span class="block text-ink transition-colors group-hover:text-accent-soft">
+                                            {link.name}
+                                        </span>
+                                        {link.description.map(|d| view! {
+                                            <span class="mt-1 block text-sm text-mute">
+                                                {d}
+                                            </span>
+                                        })}
                                     </a>
                                 </li>
                             })

@@ -13,4 +13,6 @@ pub struct ResourceSection {
 pub struct ResourceLink {
     pub name: String,
     pub href: String,
+    #[serde(default)]
+    pub description: Option<String>,
 }

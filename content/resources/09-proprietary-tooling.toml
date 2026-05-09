@@ -3,23 +3,29 @@ title = "Proprietary design & verification tooling"
 [[links]]
 name = "AMD (Xilinx)"
 href = "https://www.amd.com/en/products/software/adaptive-socs-and-fpgas.html"
+description = "Vivado, Vitis, and the broader toolchain for AMD/Xilinx FPGAs and adaptive SoCs."
 
 [[links]]
 name = "Lattice Semiconductor"
 href = "https://www.latticesemi.com/"
+description = "Vendor of low-power FPGAs along with the Radiant and Diamond design suites."
 
 [[links]]
 name = "Synopsys"
 href = "https://www.synopsys.com/"
+description = "Popular EDA flows covering synthesis, simulation, formal, and signoff."
 
 [[links]]
 name = "Cadence"
 href = "https://www.cadence.com/"
+description = "End-to-end EDA portfolio including Xcelium, Genus, Innovus, and Palladium emulation."
 
 [[links]]
 name = "Siemens EDA"
 href = "https://eda.sw.siemens.com/"
+description = "Questa, Calibre, and Tessent tools for verification, signoff, and DFT."
 
 [[links]]
 name = "Intel (Altera)"
 href = "https://www.intel.com/content/www/us/en/products/programmable.html"
+description = "Quartus Prime and supporting tooling for Intel/Altera FPGAs and SoC FPGAs."

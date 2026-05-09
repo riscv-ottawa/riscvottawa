@@ -3,27 +3,34 @@ title = "Hardware description languages (HDLs)"
 [[links]]
 name = "SystemVerilog"
 href = "https://standards.ieee.org/ieee/1800/7743/"
+description = "IEEE 1800 industry-standard HDL combining design and verification constructs."
 
 [[links]]
 name = "VHDL"
 href = "https://ieeexplore.ieee.org/document/8938196"
+description = "IEEE 1076 strongly-typed HDL widely used in defence, aerospace, and European industry."
 
 [[links]]
 name = "Bluespec SystemVerilog"
 href = "https://github.com/B-Lang-org/bsc"
+description = "Open-source compiler for the rule-based, \"type-safe\" Bluespec HDL."
 
 [[links]]
 name = "Spade"
 href = "https://spade-lang.org/"
+description = "A new and modern HDL with strong typing, pattern matching, and pipeline-aware syntax."
 
 [[links]]
 name = "Chisel"
 href = "https://www.chisel-lang.org/"
+description = "Scala-embedded HDL from Berkeley used by Rocket Chip and many academic RISC-V cores."
 
 [[links]]
 name = "SpinalHDL"
 href = "https://spinalhdl.github.io/SpinalDoc-RTD/"
+description = "Scala-based HDL focused on productivity, generators, and complex SoC composition."
 
 [[links]]
 name = "Amaranth"
 href = "https://amaranth-lang.org/docs/amaranth/latest/"
+description = "Python-based HDL (formerly nMigen) targeting FPGAs through open and vendor toolchains."
