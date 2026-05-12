@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ResourceSection {
-    #[serde(default, skip_deserializing)]
+    #[serde(default)]
     pub slug: String,
     pub title: String,
     #[serde(default)]

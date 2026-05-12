@@ -3,6 +3,7 @@ use crate::pages::{events::Events, home::Home, resources::Resources, trainings::
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, HashedStylesheet, Meta, MetaTags, Title};
 use leptos_router::components::{Route, Router, Routes};
+use leptos_router::hooks::use_location;
 use leptos_router::StaticSegment;
 
 const THEME_INIT_SCRIPT: &str = "(function(){try{var s=localStorage.getItem('theme');var t=(s==='light'||s==='dark')?s:(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','dark')}})();";
@@ -39,6 +40,7 @@ pub fn App() -> impl IntoView {
         <Meta name="description" content="RISC-V Ottawa is a community of engineers, researchers, and students exploring the open RISC-V instruction set architecture."/>
 
         <Router>
+            <HashScroll/>
             <div class="min-h-screen flex flex-col">
                 <Nav/>
                 <main class="flex-1">
@@ -53,6 +55,29 @@ pub fn App() -> impl IntoView {
             </div>
         </Router>
     }
+}
+
+// `leptos_router` intercepts `<a>` clicks for client-side navigation, which
+// updates `location.hash` but skips the browser's native scroll-to-anchor and
+// may reset scroll position on navigation. This effect reacts to hash changes
+// and scrolls to the target element, after the router settles.
+// This restores in-page anchor behavior for every `<a href="#...">`
+// in the app after hydration.
+#[component]
+fn HashScroll() -> impl IntoView {
+    let location = use_location();
+    Effect::new(move |_| {
+        let hash = location.hash.get();
+        let id = hash.trim_start_matches('#').to_string();
+        if id.is_empty() {
+            return;
+        }
+        request_animation_frame(move || {
+            if let Some(el) = document().get_element_by_id(&id) {
+                el.scroll_into_view();
+            }
+        });
+    });
 }
 
 #[component]
