@@ -1,27 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
-  <title id="title">riscvottawa</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
   <style>
-    .s { stroke: #111111; fill: none; }
-    .f { fill: #111111; }
+    .bg { fill: #161514; }
+    .fg { fill: #f4ede0; }
     @media (prefers-color-scheme: dark) {
-      .s { stroke: #FAFAFA; }
-      .f { fill: #FAFAFA; }
+      .bg { fill: #f4ede0; }
+      .fg { fill: #161514; }
     }
   </style>
-  <g class="s" stroke-width="2" stroke-linecap="square">
-    <line x1="24" y1="16" x2="24" y2="10"/>
-    <line x1="32" y1="16" x2="32" y2="10"/>
-    <line x1="40" y1="16" x2="40" y2="10"/>
-    <line x1="24" y1="48" x2="24" y2="54"/>
-    <line x1="32" y1="48" x2="32" y2="54"/>
-    <line x1="40" y1="48" x2="40" y2="54"/>
-    <line x1="16" y1="24" x2="10" y2="24"/>
-    <line x1="16" y1="32" x2="10" y2="32"/>
-    <line x1="16" y1="40" x2="10" y2="40"/>
-    <line x1="48" y1="24" x2="54" y2="24"/>
-    <line x1="48" y1="32" x2="54" y2="32"/>
-    <line x1="48" y1="40" x2="54" y2="40"/>
-    <rect x="16" y="16" width="32" height="32" rx="2"/>
-  </g>
-  <circle cx="20" cy="20" r="1.5" class="f"/>
+  <rect class="bg" width="400" height="400" rx="88"/>
+  <text class="fg" x="200" y="242" text-anchor="middle" font-family="'Space Grotesk', 'Inter Tight', system-ui, sans-serif" font-weight="700" font-size="150" letter-spacing="-5">RVO</text>
+  <circle class="fg" cx="38" cy="38" r="12" fill-opacity="0.9"/>
+  <rect x="350" y="350" width="28" height="28" fill="#c43a1f"/>
 </svg>
