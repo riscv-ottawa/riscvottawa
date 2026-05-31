@@ -6,6 +6,11 @@ pub fn EventCard(event: Event) -> impl IntoView {
     let when = format_event_date(&event.date);
     let tags = event.tags.clone();
 
+    // An empty Luma URL means the event page hasn't been published yet. We
+    // release Luma pages about two weeks before each event.
+    let has_luma = !event.luma_url.trim().is_empty();
+    const LUMA_PENDING: &str = "RSVP opens ~2 weeks before";
+
     let open = RwSignal::new(false);
 
     let m_when = when.clone();
@@ -36,18 +41,24 @@ pub fn EventCard(event: Event) -> impl IntoView {
                     <button
                         type="button"
                         on:click=move |_| open.set(true)
-                        class="text-accent hover:text-accent-soft"
+                        class="text-accent hover:text-accent-soft underline"
                     >
                         "Details"
                     </button>
-                    <a
-                        href=event.luma_url
-                        target="_blank"
-                        rel="noopener"
-                        class="text-accent hover:text-accent-soft"
-                    >
-                        "RSVP on Luma"
-                    </a>
+                    {if has_luma {
+                        view! {
+                            <a
+                                href=event.luma_url
+                                target="_blank"
+                                rel="noopener"
+                                class="text-accent hover:text-accent-soft"
+                            >
+                                "RSVP on Luma"
+                            </a>
+                        }.into_any()
+                    } else {
+                        view! { <span class="text-mute">{LUMA_PENDING}</span> }.into_any()
+                    }}
                 </div>
             </div>
             {move || open.get().then(|| view! {
@@ -93,14 +104,20 @@ pub fn EventCard(event: Event) -> impl IntoView {
                             }
                         })}
                         <div class="mt-8 flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.2em]">
-                            <a
-                                href=m_luma.clone()
-                                target="_blank"
-                                rel="noopener"
-                                class="text-accent hover:text-accent-soft"
-                            >
-                                "RSVP on Luma"
-                            </a>
+                            {if has_luma {
+                                view! {
+                                    <a
+                                        href=m_luma.clone()
+                                        target="_blank"
+                                        rel="noopener"
+                                        class="text-accent hover:text-accent-soft"
+                                    >
+                                        "RSVP on Luma"
+                                    </a>
+                                }.into_any()
+                            } else {
+                                view! { <span class="text-mute">{LUMA_PENDING}</span> }.into_any()
+                            }}
                         </div>
                     </div>
                 </div>

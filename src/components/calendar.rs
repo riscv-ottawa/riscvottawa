@@ -211,6 +211,7 @@ fn SelectedDayPanel(date: Date, events: Vec<Event>) -> impl IntoView {
             <ul class="mt-3 divide-y divide-line">
                 {events.into_iter().map(|e| {
                     let time_label = format!("{:02}:{:02}", e.date.hour(), e.date.minute());
+                    let has_luma = !e.luma_url.trim().is_empty();
                     view! {
                         <li class="flex flex-col gap-2 py-3 md:flex-row md:items-baseline md:justify-between">
                             <div>
@@ -220,14 +221,24 @@ fn SelectedDayPanel(date: Date, events: Vec<Event>) -> impl IntoView {
                                 </p>
                                 <p class="text-xs text-mute">{e.location}</p>
                             </div>
-                            <a
-                                href=e.luma_url
-                                target="_blank"
-                                rel="noopener"
-                                class="shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-accent hover:text-accent-soft"
-                            >
-                                "RSVP on Luma"
-                            </a>
+                            {if has_luma {
+                                view! {
+                                    <a
+                                        href=e.luma_url
+                                        target="_blank"
+                                        rel="noopener"
+                                        class="shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-accent hover:text-accent-soft"
+                                    >
+                                        "RSVP on Luma"
+                                    </a>
+                                }.into_any()
+                            } else {
+                                view! {
+                                    <span class="shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-mute">
+                                        "RSVP opens ~2 weeks before"
+                                    </span>
+                                }.into_any()
+                            }}
                         </li>
                     }
                 }).collect::<Vec<_>>()}

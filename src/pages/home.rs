@@ -1,8 +1,11 @@
+use crate::components::countdown::Countdown;
 use crate::components::cpu_widget::CpuWidget;
 use crate::components::event_card::EventCard;
 use crate::components::hero::Hero;
 use crate::components::training_card::TrainingCard;
-use crate::content::{get_featured_trainings, get_upcoming_events, Event, Training};
+use crate::content::{
+    get_featured_trainings, get_inaugural_event, get_upcoming_events, Event, Training,
+};
 use leptos::prelude::*;
 use leptos_meta::Title;
 use leptos_router::components::A;
@@ -12,9 +15,17 @@ pub fn Home() -> impl IntoView {
     let events = Resource::new_blocking(|| (), |_| async move { get_upcoming_events().await });
     let trainings =
         Resource::new_blocking(|| (), |_| async move { get_featured_trainings().await });
+    let inaugural = Resource::new_blocking(|| (), |_| async move { get_inaugural_event().await });
 
     view! {
         <Title text="RISC-V Ottawa"/>
+
+        <Suspense fallback=|| ()>
+            {move || inaugural.get().and_then(Result::ok).flatten().map(|ev| {
+                view! { <Countdown event=ev/> }
+            })}
+        </Suspense>
+
         <Hero/>
 
         <CpuWidget/>

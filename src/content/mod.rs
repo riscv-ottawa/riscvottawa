@@ -54,6 +54,16 @@ pub async fn get_featured_trainings() -> Result<Vec<Training>, ServerFnError> {
     Ok(store.trainings.iter().take(3).cloned().collect())
 }
 
+#[server(GetInauguralEvent, "/api")]
+pub async fn get_inaugural_event() -> Result<Option<Event>, ServerFnError> {
+    let store = expect_context::<ContentStore>();
+    Ok(store
+        .events
+        .iter()
+        .find(|e| e.slug.ends_with("inaugural-meeting"))
+        .cloned())
+}
+
 #[server(GetEventsPage, "/api")]
 pub async fn get_events_page() -> Result<EventsPageData, ServerFnError> {
     let store = expect_context::<ContentStore>();

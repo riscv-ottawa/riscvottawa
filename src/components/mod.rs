@@ -1,4 +1,5 @@
 pub mod calendar;
+pub mod countdown;
 pub mod cpu_widget;
 pub mod event_card;
 pub mod footer;
