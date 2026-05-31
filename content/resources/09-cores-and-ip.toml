@@ -1,4 +1,4 @@
-title = "FOSS cores"
+title = "FOSS cores & IP"
 
 [[links]]
 name = "OpenHW CORE-V cores (CVE2, CVE4, CVA6)"
@@ -9,6 +9,11 @@ description = "Industrial-grade, verified RISC-V cores spanning microcontroller 
 name = "OpenTitan"
 href = "https://opentitan.org/"
 description = "Open-source silicon root of trust (RoT) built around the Ibex core."
+
+[[links]]
+name = "Pavona"
+href = "https://pavona.org/"
+description = "The open-source ecosystem for composable secure silicon."
 
 [[links]]
 name = "Ibex CPU"
