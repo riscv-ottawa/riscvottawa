@@ -1,4 +1,4 @@
-use super::{Event, ResourceSection, Training};
+use super::{Event, Project, ResourceSection};
 use std::fmt;
 use std::fs;
 use std::io;
@@ -8,7 +8,7 @@ use std::sync::Arc;
 #[derive(Clone, Debug)]
 pub struct ContentStore {
     pub events: Arc<[Event]>,
-    pub trainings: Arc<[Training]>,
+    pub projects: Arc<[Project]>,
     pub resources: Arc<[ResourceSection]>,
 }
 
@@ -51,13 +51,13 @@ impl ContentStore {
     pub fn load_from_dir(root: impl AsRef<Path>) -> Result<Self, LoadError> {
         let root = root.as_ref();
         let mut events = load_events(&root.join("events"))?;
-        let mut trainings = load_trainings(&root.join("trainings"))?;
+        let mut projects = load_projects(&root.join("projects"))?;
         let resources = load_resources(&root.join("resources"))?;
         events.sort_by_key(|e| e.date);
-        trainings.sort_by(|a, b| a.slug.cmp(&b.slug));
+        projects.sort_by(|a, b| a.slug.cmp(&b.slug));
         Ok(Self {
             events: events.into(),
-            trainings: trainings.into(),
+            projects: projects.into(),
             resources: resources.into(),
         })
     }
@@ -99,16 +99,16 @@ fn strip_order_prefix(slug: &str) -> String {
     slug.to_string()
 }
 
-fn load_trainings(dir: &Path) -> Result<Vec<Training>, LoadError> {
+fn load_projects(dir: &Path) -> Result<Vec<Project>, LoadError> {
     let mut out = Vec::new();
     for (slug, contents, path) in read_toml_dir(dir)? {
-        let mut training: Training =
+        let mut project: Project =
             toml::from_str(&contents).map_err(|error| LoadError::Parse {
                 path: path.clone(),
                 error,
             })?;
-        training.slug = slug;
-        out.push(training);
+        project.slug = slug;
+        out.push(project);
     }
     Ok(out)
 }

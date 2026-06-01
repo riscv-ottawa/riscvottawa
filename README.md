@@ -21,7 +21,7 @@ Open <http://localhost:3000>. The watcher rebuilds on changes to `src/`, `style/
 
 ## Adding content
 
-Add or remove files under `content/events/`, `content/trainings/`, and `content/resources/`.
+Add or remove files under `content/events/`, `content/projects/`, and `content/resources/`.
 The server loads everything at startup and aborts with a clear error if any file fails to parse.
 
 ### A new event
@@ -40,9 +40,9 @@ luma_url = "https://lu.ma/your-event-id"
 tags = ["beginner", "architecture"]
 ```
 
-### A new training
+### A new project
 
-Create `content/trainings/<NN-slug>.toml`:
+Create `content/projects/<NN-slug>.toml`:
 
 ```toml
 title = "RISC-V Fundamentals"
@@ -53,7 +53,7 @@ description = """
 Long form description.
 """
 prerequisites = ["basic C", "shell"]
-contact_url = "mailto:trainings@riscvottawa.org"   # optional
+contact_url = "mailto:projects@riscvottawa.org"   # optional
 ```
 
 ### A new resource section or link

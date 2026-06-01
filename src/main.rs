@@ -18,9 +18,9 @@ async fn main() {
         }
     };
     println!(
-        "loaded {} events, {} trainings, {} resources",
+        "loaded {} events, {} projects, {} resources",
         store.events.len(),
-        store.trainings.len(),
+        store.projects.len(),
         store.resources.len()
     );
 

@@ -1,10 +1,10 @@
 pub mod event;
+pub mod project;
 pub mod resource;
-pub mod training;
 
 pub use event::Event;
+pub use project::{Level, Project};
 pub use resource::{ResourceLink, ResourceSection};
-pub use training::{Level, Training};
 
 use leptos::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -23,10 +23,10 @@ pub struct EventsPageData {
     pub today: Date,
 }
 
-#[server(GetTrainings, "/api")]
-pub async fn get_trainings() -> Result<Vec<Training>, ServerFnError> {
+#[server(GetProjects, "/api")]
+pub async fn get_projects() -> Result<Vec<Project>, ServerFnError> {
     let store = expect_context::<ContentStore>();
-    Ok(store.trainings.iter().cloned().collect())
+    Ok(store.projects.iter().cloned().collect())
 }
 
 #[server(GetResourceSections, "/api")]
@@ -48,10 +48,10 @@ pub async fn get_upcoming_events() -> Result<Vec<Event>, ServerFnError> {
         .collect())
 }
 
-#[server(GetFeaturedTrainings, "/api")]
-pub async fn get_featured_trainings() -> Result<Vec<Training>, ServerFnError> {
+#[server(GetFeaturedProjects, "/api")]
+pub async fn get_featured_projects() -> Result<Vec<Project>, ServerFnError> {
     let store = expect_context::<ContentStore>();
-    Ok(store.trainings.iter().take(3).cloned().collect())
+    Ok(store.projects.iter().take(3).cloned().collect())
 }
 
 #[server(GetInauguralEvent, "/api")]

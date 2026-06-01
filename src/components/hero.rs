@@ -32,10 +32,10 @@ pub fn Hero() -> impl IntoView {
                         "See upcoming events"
                     </A>
                     <A
-                        href="/trainings"
+                        href="/projects"
                         attr:class="inline-flex items-center gap-2 rounded-sm border border-line px-5 py-3 text-ink transition hover:border-accent hover:text-accent-soft"
                     >
-                        "Browse trainings"
+                        "Browse projects"
                     </A>
                 </div>
             </div>

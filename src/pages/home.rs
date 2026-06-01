@@ -2,9 +2,9 @@ use crate::components::countdown::Countdown;
 use crate::components::cpu_widget::CpuWidget;
 use crate::components::event_card::EventCard;
 use crate::components::hero::Hero;
-use crate::components::training_card::TrainingCard;
+use crate::components::project_card::ProjectCard;
 use crate::content::{
-    get_featured_trainings, get_inaugural_event, get_upcoming_events, Event, Training,
+    get_featured_projects, get_inaugural_event, get_upcoming_events, Event, Project,
 };
 use leptos::prelude::*;
 use leptos_meta::Title;
@@ -13,8 +13,8 @@ use leptos_router::components::A;
 #[component]
 pub fn Home() -> impl IntoView {
     let events = Resource::new_blocking(|| (), |_| async move { get_upcoming_events().await });
-    let trainings =
-        Resource::new_blocking(|| (), |_| async move { get_featured_trainings().await });
+    let projects =
+        Resource::new_blocking(|| (), |_| async move { get_featured_projects().await });
     let inaugural = Resource::new_blocking(|| (), |_| async move { get_inaugural_event().await });
 
     view! {
@@ -47,14 +47,14 @@ pub fn Home() -> impl IntoView {
 
         <section class="container-page hairline py-16">
             <StripHeader
-                eyebrow="/ trainings"
-                title="Featured trainings"
-                link_href="/trainings"
+                eyebrow="/ projects"
+                title="Featured projects"
+                link_href="/projects"
                 link_text="Browse the catalog"
             />
             <Suspense fallback=|| view! { <StripSkeleton/> }>
-                {move || trainings.get().map(|result| match result {
-                    Ok(items) => view! { <TrainingStrip items=items/> }.into_any(),
+                {move || projects.get().map(|result| match result {
+                    Ok(items) => view! { <ProjectStrip items=items/> }.into_any(),
                     Err(_) => view! { <EmptyNote/> }.into_any(),
                 })}
             </Suspense>
@@ -102,7 +102,7 @@ fn EventStrip(items: Vec<Event>) -> impl IntoView {
 }
 
 #[component]
-fn TrainingStrip(items: Vec<Training>) -> impl IntoView {
+fn ProjectStrip(items: Vec<Project>) -> impl IntoView {
     if items.is_empty() {
         return view! { <EmptyNote/> }.into_any();
     }
@@ -110,7 +110,7 @@ fn TrainingStrip(items: Vec<Training>) -> impl IntoView {
         <ul class="mt-8 grid gap-6 md:grid-cols-3">
             {items
                 .into_iter()
-                .map(|t| view! { <TrainingCard training=t/> })
+                .map(|t| view! { <ProjectCard project=t/> })
                 .collect::<Vec<_>>()}
         </ul>
     }

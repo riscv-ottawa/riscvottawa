@@ -26,7 +26,7 @@ impl Pin {
 
     fn body(self) -> &'static str {
         match self {
-            Pin::Learn => "Hands-on trainings covering the RISC-V ISA, embedded systems, FPGA development, and more.",
+            Pin::Learn => "Hands-on projects covering the RISC-V ISA, embedded systems, FPGA development, and more.",
             Pin::Build => "Join us for project nights; bring a board or bring a question, and let's build together!",
             Pin::Meet => "Talks from practitioners in verification, embedded systems, computer security, and chip design.",
         }

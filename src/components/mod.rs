@@ -5,5 +5,5 @@ pub mod event_card;
 pub mod footer;
 pub mod hero;
 pub mod nav;
+pub mod project_card;
 pub mod theme_toggle;
-pub mod training_card;

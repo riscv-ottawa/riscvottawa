@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Training {
+pub struct Project {
     #[serde(default, skip_deserializing)]
     pub slug: String,
     pub title: String,

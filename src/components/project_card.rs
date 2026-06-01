@@ -1,35 +1,35 @@
-use crate::content::{Level, Training};
+use crate::content::{Level, Project};
 use leptos::prelude::*;
 
 #[component]
-pub fn TrainingCard(training: Training) -> impl IntoView {
-    let level_class = match training.level {
+pub fn ProjectCard(project: Project) -> impl IntoView {
+    let level_class = match project.level {
         Level::Beginner => "text-accent",
         Level::Intermediate => "text-warm",
         Level::Advanced => "text-rust",
     };
-    let prereqs = if training.prerequisites.is_empty() {
+    let prereqs = if project.prerequisites.is_empty() {
         None
     } else {
-        Some(training.prerequisites.join(", "))
+        Some(project.prerequisites.join(", "))
     };
-    let level_label = training.level.label();
+    let level_label = project.level.label();
 
     let open = RwSignal::new(false);
 
-    let m_title = training.title.clone();
-    let m_description = training.description.clone();
+    let m_title = project.title.clone();
+    let m_description = project.description.clone();
     let m_prereqs = prereqs.clone();
-    let m_website = training.website_url.clone();
-    let m_contact = training.contact_url.clone();
+    let m_website = project.website_url.clone();
+    let m_contact = project.contact_url.clone();
 
     view! {
         <li class="flex h-full flex-col rounded-sm border border-line bg-surface p-6 transition hover:border-accent/60">
             <div class="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.3em]">
                 <span class=level_class>{level_label}</span>
             </div>
-            <h3 class="mt-3 font-mono text-xl font-semibold text-ink">{training.title}</h3>
-            <p class="mt-2 text-sm text-ink/90">{training.summary}</p>
+            <h3 class="mt-3 font-mono text-xl font-semibold text-ink">{project.title}</h3>
+            <p class="mt-2 text-sm text-ink/90">{project.summary}</p>
             {prereqs.map(|p| view! {
                 <p class="mt-4 font-mono text-xs uppercase tracking-[0.3em] text-mute">
                     "prereqs // "{p}
@@ -43,7 +43,7 @@ pub fn TrainingCard(training: Training) -> impl IntoView {
                 >
                     "DETAILS"
                 </button>
-                {training.website_url.clone().map(|url| view! {
+                {project.website_url.clone().map(|url| view! {
                     <a
                         href=url
                         target="_blank"
@@ -53,7 +53,7 @@ pub fn TrainingCard(training: Training) -> impl IntoView {
                         "Website"
                     </a>
                 })}
-                {training.contact_url.map(|url| view! {
+                {project.contact_url.map(|url| view! {
                     <a
                         href=url
                         class="text-accent hover:text-accent-soft"
@@ -98,7 +98,7 @@ pub fn TrainingCard(training: Training) -> impl IntoView {
                                     rel="noopener"
                                     class="text-accent hover:text-accent-soft"
                                 >
-                                    "Training website"
+                                    "Project website"
                                 </a>
                             })}
                             {m_contact.clone().map(|url| view! {

@@ -16,7 +16,7 @@ pub fn Events() -> impl IntoView {
                 "Upcoming events"
             </h1>
             <p class="mt-4 max-w-2xl text-mute">
-                "Training sessions, talks, and project nights. Click a highlighted upcoming day for details, or jump to the calendar below."
+                "Talks, project nights, and hands-on sessions. Click a highlighted upcoming day for details, or jump to the calendar below."
             </p>
 
             <Suspense fallback=|| view! { <PageSkeleton/> }>
