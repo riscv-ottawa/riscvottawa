@@ -23,6 +23,7 @@ console_error_panic_hook = "0.1"
 wasm-bindgen = { version = "=0.2.100", optional = true }
 web-sys = { version = "0.3", optional = true, features = ["Storage"] }
 js-sys = { version = "0.3", optional = true }
+send_wrapper = { version = "0.6", optional = true }
 
 serde = { version = "1", features = ["derive"] }
 time = { version = "0.3", features = ["serde-well-known", "macros"] }
@@ -36,6 +37,7 @@ hydrate = [
     "dep:wasm-bindgen",
     "dep:web-sys",
     "dep:js-sys",
+    "dep:send_wrapper",
 ]
 ssr = [
     "dep:axum",

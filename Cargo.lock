@@ -1661,6 +1661,7 @@ dependencies = [
  "leptos_axum",
  "leptos_meta",
  "leptos_router",
+ "send_wrapper",
  "serde",
  "time",
  "tokio",

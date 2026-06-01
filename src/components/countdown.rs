@@ -15,6 +15,39 @@ fn now_ms() -> f64 {
     time::OffsetDateTime::now_utc().unix_timestamp_nanos() as f64 / 1_000_000.0
 }
 
+// Chrome (since v88) throttles background-tab timers to roughly once a minute
+// after the tab has been hidden a few minutes, and energy-saver modes can stop
+// them entirely. That makes the interval-driven countdown look frozen even
+// though the wall clock is fine. Re-read the clock the moment the tab becomes
+// visible again so the display snaps to the correct time without waiting for
+// the throttled timer to fire. Only meaningful on the client.
+#[cfg(feature = "hydrate")]
+fn refresh_when_visible(now: RwSignal<f64>) {
+    use send_wrapper::SendWrapper;
+    use wasm_bindgen::closure::Closure;
+    use wasm_bindgen::JsCast;
+
+    let doc = document();
+    let listener = Closure::<dyn FnMut()>::new(move || now.set(now_ms()));
+    doc.add_event_listener_with_callback("visibilitychange", listener.as_ref().unchecked_ref())
+        .expect("failed to register visibilitychange listener");
+
+    // The wasm `Closure` is not `Send + Sync`, but `on_cleanup` requires it.
+    // We only ever touch it on the (single) browser thread, so wrapping it is
+    // sound; this mirrors how leptos itself manages event listeners.
+    let guard = SendWrapper::new((doc, listener));
+    on_cleanup(move || {
+        let (doc, listener) = guard.take();
+        let _ = doc.remove_event_listener_with_callback(
+            "visibilitychange",
+            listener.as_ref().unchecked_ref(),
+        );
+    });
+}
+
+#[cfg(not(feature = "hydrate"))]
+fn refresh_when_visible(_now: RwSignal<f64>) {}
+
 #[component]
 pub fn Countdown(event: Event) -> impl IntoView {
     let target_ms = event.date.unix_timestamp() as f64 * 1000.0;
@@ -29,6 +62,10 @@ pub fn Countdown(event: Event) -> impl IntoView {
             set_interval_with_handle(move || now.set(now_ms()), std::time::Duration::from_secs(1))
                 .expect("failed to start countdown interval");
         on_cleanup(move || handle.clear());
+
+        // The interval alone is not enough: browsers throttle it in the
+        // background, so also resync whenever the tab is shown again.
+        refresh_when_visible(now);
     });
 
     let remaining = move || ((target_ms - now.get()) / 1000.0).max(0.0) as i64;
