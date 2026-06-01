@@ -13,8 +13,7 @@ use leptos_router::components::A;
 #[component]
 pub fn Home() -> impl IntoView {
     let events = Resource::new_blocking(|| (), |_| async move { get_upcoming_events().await });
-    let projects =
-        Resource::new_blocking(|| (), |_| async move { get_featured_projects().await });
+    let projects = Resource::new_blocking(|| (), |_| async move { get_featured_projects().await });
     let inaugural = Resource::new_blocking(|| (), |_| async move { get_inaugural_event().await });
 
     view! {

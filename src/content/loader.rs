@@ -102,11 +102,10 @@ fn strip_order_prefix(slug: &str) -> String {
 fn load_projects(dir: &Path) -> Result<Vec<Project>, LoadError> {
     let mut out = Vec::new();
     for (slug, contents, path) in read_toml_dir(dir)? {
-        let mut project: Project =
-            toml::from_str(&contents).map_err(|error| LoadError::Parse {
-                path: path.clone(),
-                error,
-            })?;
+        let mut project: Project = toml::from_str(&contents).map_err(|error| LoadError::Parse {
+            path: path.clone(),
+            error,
+        })?;
         project.slug = slug;
         out.push(project);
     }
