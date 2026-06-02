@@ -1,9 +1,9 @@
 title = "Inaugural meeting"
 date = "2026-06-17T18:30:00-04:00"
-location = "Eclipse Foundation office (2934 Baseline Road, Suite 20, Ottawa, Ontario K2H 1B2)"
+location = "Eclipse Foundation office (2934 Baseline Road, Suite 202, Ottawa, Ontario K2H 1B2)"
 summary = "The inaugural meeting of the RISC-V Ottawa group brings together developers, students, and hobbyists to shape the group's future. The agenda includes talks by invited speakers on the RISC-V hardware and software ecosystem, an overview and status update for RISC-V Ottawa, collaborative project brainstorming, and a networking mixer."
 description = """
-Join us for the inaugural meeting of the RISC-V Ottawa (RVO) group, where attendees are co-creators in shaping the group's direction. The meeting will open with an introduction and welcome to RISC-V Ottawa, followed by a talk from Mike Thompson (OpenHW Foundation) on the open-source RISC-V hardware ecosystem, and then an overview and status update for RISC-V Ottawa by one of the co-founders. The agenda will also include collaborative project brainstorming and pitches and finally a networking mixer to connect with developers, students, and hobbyists across the Ottawa ecosystem.
+Join us for the inaugural meeting of RISC-V Ottawa (RVO), where attendees are co-creators in shaping the group's direction. The evening opens with a welcome and introduction to RISC-V Ottawa, followed by talks from Mike Thompson (OpenHW Foundation) on the open-source RISC-V ecosystem and Frédéric Desbiens (Eclipse Foundation) on open-source RTOSes, and an overview and status update of RISC-V Ottawa from one of the co-founders. We'll then move into collaborative project brainstorming and pitches, before closing out with a networking mixer as a chance to connect with developers, students, and hobbyists from across the Ottawa ecosystem.
 
 See the Luma page for more details.
 """
