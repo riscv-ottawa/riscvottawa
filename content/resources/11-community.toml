@@ -11,6 +11,11 @@ href = "https://openhwfoundation.org"
 description = "Industry consortium developing verified open-source RISC-V cores like the CORE-V family."
 
 [[links]]
+name = "Works with RISC-V"
+href = "https://www.workswithriscv.net"
+description = "An unofficial, but large and open place for all the developers, implementors, and enthusiasts of RISC-V to gather, share, and support each other."
+
+[[links]]
 name = "CHIPS Alliance"
 href = "https://chipsalliance.org/"
 description = "Linux Foundation project hosting open hardware, IP, and EDA tooling collaborations."
@@ -29,3 +34,4 @@ description = "Advocacy organisation for free and open-source silicon, host of L
 name = "Tiny Tapeout"
 href = "https://tinytapeout.com"
 description = "Educational program letting hobbyists submit small designs onto a shared ASIC tape-out."
+
