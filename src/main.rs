@@ -3,12 +3,17 @@
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
+    use axum::http::{header, HeaderValue};
     use axum::Router;
     use leptos::config::get_configuration;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use riscvottawa::app::{shell, App};
     use riscvottawa::content::ContentStore;
+    use tower::ServiceBuilder;
+    use tower_http::compression::CompressionLayer;
+    use tower_http::services::ServeDir;
+    use tower_http::set_header::SetResponseHeaderLayer;
 
     let store = match ContentStore::load_from_dir("content") {
         Ok(s) => s,
@@ -29,6 +34,21 @@ async fn main() {
     let leptos_options = conf.leptos_options;
     let routes = generate_route_list(App);
 
+    // Leptos content-hashes the filenames under the package directory, so those
+    // bundles (wasm/js/css) are safe to cache forever. Serve them ourselves with
+    // an immutable Cache-Control so browsers fetch the hydration bundle once,
+    // instead of letting the Leptos fallback hand them out with no cache hint.
+    let pkg_dir = format!(
+        "{}/{}",
+        leptos_options.site_root, leptos_options.site_pkg_dir
+    );
+    let pkg_service = ServiceBuilder::new()
+        .layer(SetResponseHeaderLayer::overriding(
+            header::CACHE_CONTROL,
+            HeaderValue::from_static("public, max-age=31536000, immutable"),
+        ))
+        .service(ServeDir::new(pkg_dir));
+
     let app = Router::new()
         .leptos_routes_with_context(
             &leptos_options,
@@ -42,8 +62,13 @@ async fn main() {
                 move || shell(options.clone())
             },
         )
+        .nest_service("/pkg", pkg_service)
         .fallback(leptos_axum::file_and_error_handler(shell))
-        .with_state(leptos_options);
+        .with_state(leptos_options)
+        // Compress SSR HTML and assets on the fly (Brotli/gzip via content
+        // negotiation). Self-contained so it works behind any proxy, or none;
+        // a proxy that already compresses will pass an encoded response through.
+        .layer(CompressionLayer::new());
 
     println!("listening on http://{addr}");
     let listener = tokio::net::TcpListener::bind(&addr)
