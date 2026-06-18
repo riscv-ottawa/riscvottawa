@@ -34,10 +34,14 @@ async fn main() {
     let leptos_options = conf.leptos_options;
     let routes = generate_route_list(App);
 
-    // Leptos content-hashes the filenames under the package directory, so those
-    // bundles (wasm/js/css) are safe to cache forever. Serve them ourselves with
-    // an immutable Cache-Control so browsers fetch the hydration bundle once,
-    // instead of letting the Leptos fallback hand them out with no cache hint.
+    // The bundles under /pkg (wasm/js/css) keep stable filenames: file hashing
+    // is not enabled, so the names don't change between builds. That makes them
+    // unsafe to cache immutably. A returning visitor would keep an old bundle
+    // forever, hydrate it against freshly rendered HTML, hit a mismatch, and end
+    // up with a dead page (frozen countdown, unresponsive menu) until a hard
+    // refresh. `no-cache` lets the browser store the bundle but revalidate on
+    // every load; ServeDir replies with a cheap 304 while the file is unchanged
+    // and serves the new bundle the moment a deploy changes it.
     let pkg_dir = format!(
         "{}/{}",
         leptos_options.site_root, leptos_options.site_pkg_dir
@@ -45,7 +49,7 @@ async fn main() {
     let pkg_service = ServiceBuilder::new()
         .layer(SetResponseHeaderLayer::overriding(
             header::CACHE_CONTROL,
-            HeaderValue::from_static("public, max-age=31536000, immutable"),
+            HeaderValue::from_static("no-cache"),
         ))
         .service(ServeDir::new(pkg_dir));
 

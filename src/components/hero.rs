@@ -13,7 +13,7 @@ pub fn Hero() -> impl IntoView {
                 <h1 class="mt-6 max-w-4xl font-mono text-4xl font-bold leading-[1.05] text-ink md:text-5xl">
                    "A community in Ottawa for everyone curious about "
                    <a
-                       href="https://riscv.org/"
+                       href="https://riscv.org/about/#history"
                        target="_blank"
                        rel="noopener"
                        class="text-warm no-underline hover:underline"

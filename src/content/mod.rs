@@ -54,14 +54,20 @@ pub async fn get_featured_projects() -> Result<Vec<Project>, ServerFnError> {
     Ok(store.projects.iter().take(3).cloned().collect())
 }
 
-#[server(GetInauguralEvent, "/api")]
-pub async fn get_inaugural_event() -> Result<Option<Event>, ServerFnError> {
+// Events the countdown may display: anything whose start is still in the future
+// or finished within the last 12 hours. The client picks the active one and
+// advances to the next as each event's post-event window elapses. Sorted
+// ascending by date (the content loader guarantees this).
+#[server(GetCountdownEvents, "/api")]
+pub async fn get_countdown_events() -> Result<Vec<Event>, ServerFnError> {
     let store = expect_context::<ContentStore>();
+    let cutoff = time::OffsetDateTime::now_utc() - time::Duration::hours(12);
     Ok(store
         .events
         .iter()
-        .find(|e| e.slug.ends_with("inaugural-meeting"))
-        .cloned())
+        .filter(|e| e.date >= cutoff)
+        .cloned()
+        .collect())
 }
 
 #[server(GetEventsPage, "/api")]

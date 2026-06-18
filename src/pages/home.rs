@@ -4,7 +4,7 @@ use crate::components::event_card::EventCard;
 use crate::components::hero::Hero;
 use crate::components::project_card::ProjectCard;
 use crate::content::{
-    get_featured_projects, get_inaugural_event, get_upcoming_events, Event, Project,
+    get_countdown_events, get_featured_projects, get_upcoming_events, Event, Project,
 };
 use leptos::prelude::*;
 use leptos_meta::Title;
@@ -14,14 +14,14 @@ use leptos_router::components::A;
 pub fn Home() -> impl IntoView {
     let events = Resource::new_blocking(|| (), |_| async move { get_upcoming_events().await });
     let projects = Resource::new_blocking(|| (), |_| async move { get_featured_projects().await });
-    let inaugural = Resource::new_blocking(|| (), |_| async move { get_inaugural_event().await });
+    let countdown = Resource::new_blocking(|| (), |_| async move { get_countdown_events().await });
 
     view! {
         <Title text="RISC-V Ottawa"/>
 
         <Suspense fallback=|| ()>
-            {move || inaugural.get().and_then(Result::ok).flatten().map(|ev| {
-                view! { <Countdown event=ev/> }
+            {move || countdown.get().and_then(Result::ok).map(|events| {
+                view! { <Countdown events=events/> }
             })}
         </Suspense>
 
