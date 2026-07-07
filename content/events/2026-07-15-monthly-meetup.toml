@@ -1,9 +1,9 @@
 title = "Monthly meetup (July)"
-date = "2026-07-15T18:30:00-04:00"
-location = "Location - TBD"
-summary = "Join the RISC-V Ottawa group each month for a feature talk, study group check-ins, project pitches, and networking. A pressure-free space to learn, build, and connect with fellow developers, students, and hobbyists. All welcome."
+date = "2026-07-17T18:30:00-04:00"
+location = "uOttawa STEM Complex, Room 117 (150 Louis-Pasteur Private, Ottawa, ON K1N 9A7)"
+summary = "The July meetup of RISC-V Ottawa features an introduction to RISC-V, a panel discussion, a talk by Bill Traynor of RISC-V International, member project updates, and time to network with professionals, students, and hobbyists. All welcome."
 description = """
-Each month, the Ottawa RISC-V User Group comes together for a mix of learning, building, and connecting. A typical meetup includes a feature talk alternating between hardware and software/firmware topics, check-ins from our hands-on study groups, an open floor for members to pitch projects and find collaborators, and time to network with fellow developers, students, and hobbyists. Whether you want to design a CPU core, write an RTOS driver, or simply explore what RISC-V has to offer, you'll find a pressure-free space to experiment and share. All welcome.
+Join us for the July meetup of RISC-V Ottawa (RVO). The evening opens with a welcome and a beginner-friendly introduction to RISC-V covering what it is and why it matters, followed by a panel discussion with industry practitioners and an invited talk from Bill Traynor, Documentation Build & Release Engineer at RISC-V International. We'll then hear project updates from members working on CVA5, RISC-V workload profiling, and FOSSi tooling, before closing remarks and a look ahead to our next meetup. Whether you are a student, seasoned professional, or simply someone curious about what RISC-V has to offer, you'll find a pressure-free space to learn, build, and connect. All welcome.
 """
 luma_url = ""
-tags = ["open", "meetup", "monthly"]
+tags = ["open", "meetup", "monthly", "guest-speaker"]
