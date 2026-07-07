@@ -1,4 +1,7 @@
 use crate::components::{footer::Footer, nav::Nav};
+use crate::pages::code_of_conduct::CodeOfConduct;
+use crate::pages::governance::GovernanceOverview;
+use crate::pages::values::Values;
 use crate::pages::{events::Events, home::Home, projects::Projects, resources::Resources};
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, HashedStylesheet, Meta, MetaTags, Title};
@@ -49,6 +52,9 @@ pub fn App() -> impl IntoView {
                         <Route path=StaticSegment("projects") view=Projects/>
                         <Route path=StaticSegment("events") view=Events/>
                         <Route path=StaticSegment("resources") view=Resources/>
+                        <Route path=StaticSegment("governance") view=GovernanceOverview/>
+                        <Route path=StaticSegment("values") view=Values/>
+                        <Route path=StaticSegment("code-of-conduct") view=CodeOfConduct/>
                     </Routes>
                 </main>
                 <Footer/>
