@@ -1,0 +1,8 @@
+title = "RISC-V AI Operator Profiling Framework"
+level = "intermediate"
+summary = "A reproducible framework for profiling AI operators on RISC-V processors."
+description = """
+This project provides a reproducible workflow for profiling AI operators on RISC-V. It demonstrates how high-level code is translated into RISC-V instructions, how different implementations affect instruction count and memory behavior, and how to reason about whether an operator is compute-bound, memory-bound, or limited by instruction overhead.
+"""
+prerequisites = ["C", "shell"]
+website_url = "https://github.com/riscv-ottawa/Profile-on-RISC-V"

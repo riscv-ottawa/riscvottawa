@@ -8,5 +8,5 @@ simulating hardware using Renode,
 and the basics of real-time operating systems (RTOS) and Zephyr.
 In the end, the hope is for you to gain fundamental generalizable knowledge relating to the development of firmware for microcontroller-based systems.
 """
-prerequisites = ["basic C", "Linux", "shell"]
+prerequisites = ["C", "shell"]
 website_url = "https://vega.riscvottawa.ca"
