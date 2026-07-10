@@ -8,5 +8,5 @@ The whole flow runs in a container and is driven by a single Makefile.
 Covers building and flashing the SoC, running the LiteX BIOS, writing some basic bare-metal firmware,
 and how startup code and boot paths fit together.
 """
-prerequisites = ["FPGA",  "shell", "Linux", "containers"]
+prerequisites = ["FPGA",  "shell", "containers"]
 website_url = "https://github.com/riscv-ottawa/ibex-tang-nano-oss-cad"
