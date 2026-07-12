@@ -1,0 +1,12 @@
+title = "Ibex RISC-V SoC on the Tang Nano 9K"
+level = "advanced"
+summary = "Build a complete RISC-V SoC (lowRISC Ibex CPU + UART + memory + Wishbone bus) for the Sipeed Tang Nano 9K using LiteX and a fully open FPGA flow"
+description = """
+Uses LiteX to generate the FPGA configuration ("gateware"), bus, and BIOS, then synthesizes and flashes the design with a
+fully open toolchain (yosys, nextpnr-himbaechel, and apicula) targeting the Gowin GW1NR-9 FPGA.
+The whole flow runs in a container and is driven by a single Makefile.
+Covers building and flashing the SoC, running the LiteX BIOS, writing some basic bare-metal firmware,
+and how startup code and boot paths fit together.
+"""
+prerequisites = ["FPGA",  "shell", "containers"]
+website_url = "https://github.com/riscv-ottawa/ibex-tang-nano-oss-cad"
