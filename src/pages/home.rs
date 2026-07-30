@@ -3,9 +3,7 @@ use crate::components::cpu_widget::CpuWidget;
 use crate::components::event_card::EventCard;
 use crate::components::hero::Hero;
 use crate::components::project_rail::ProjectRail;
-use crate::content::{
-    get_countdown_events, get_projects, get_upcoming_events, Event,
-};
+use crate::content::{get_countdown_events, get_projects, get_upcoming_events, Event};
 use leptos::prelude::*;
 use leptos_meta::Title;
 use leptos_router::components::A;
