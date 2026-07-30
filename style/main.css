@@ -24,6 +24,7 @@
     --shadow-soft: 0 8px 24px -8px color-mix(in oklab, #000 35%, transparent);
 
     --animate-solder-pulse: solder-pulse 2.4s ease-in-out infinite;
+    --animate-rail-rise: rail-rise 0.4s ease-out both;
 }
 
 /* Map the `dark:` variant to our data-theme attribute on <html>. */
@@ -56,8 +57,22 @@
     }
 }
 
+@keyframes rail-rise {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .animate-solder-pulse {
+        animation: none;
+    }
+    .animate-rail-rise {
         animation: none;
     }
 }

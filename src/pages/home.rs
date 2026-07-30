@@ -2,9 +2,9 @@ use crate::components::countdown::Countdown;
 use crate::components::cpu_widget::CpuWidget;
 use crate::components::event_card::EventCard;
 use crate::components::hero::Hero;
-use crate::components::project_card::ProjectCard;
+use crate::components::project_rail::ProjectRail;
 use crate::content::{
-    get_countdown_events, get_featured_projects, get_upcoming_events, Event, Project,
+    get_countdown_events, get_projects, get_upcoming_events, Event,
 };
 use leptos::prelude::*;
 use leptos_meta::Title;
@@ -13,7 +13,7 @@ use leptos_router::components::A;
 #[component]
 pub fn Home() -> impl IntoView {
     let events = Resource::new_blocking(|| (), |_| async move { get_upcoming_events().await });
-    let projects = Resource::new_blocking(|| (), |_| async move { get_featured_projects().await });
+    let projects = Resource::new_blocking(|| (), |_| async move { get_projects().await });
     let countdown = Resource::new_blocking(|| (), |_| async move { get_countdown_events().await });
 
     view! {
@@ -47,13 +47,13 @@ pub fn Home() -> impl IntoView {
         <section class="container-page hairline py-16">
             <StripHeader
                 eyebrow="/ projects"
-                title="Featured projects"
+                title="Projects"
                 link_href="/projects"
-                link_text="Browse the catalog"
+                link_text="See all projects"
             />
-            <Suspense fallback=|| view! { <StripSkeleton/> }>
+            <Suspense fallback=|| view! { <RailSkeleton/> }>
                 {move || projects.get().map(|result| match result {
-                    Ok(items) => view! { <ProjectStrip items=items/> }.into_any(),
+                    Ok(items) => view! { <ProjectRail items=items/> }.into_any(),
                     Err(_) => view! { <EmptyNote/> }.into_any(),
                 })}
             </Suspense>
@@ -101,28 +101,23 @@ fn EventStrip(items: Vec<Event>) -> impl IntoView {
 }
 
 #[component]
-fn ProjectStrip(items: Vec<Project>) -> impl IntoView {
-    if items.is_empty() {
-        return view! { <EmptyNote/> }.into_any();
-    }
-    view! {
-        <ul class="mt-8 grid gap-6 md:grid-cols-3">
-            {items
-                .into_iter()
-                .map(|t| view! { <ProjectCard project=t/> })
-                .collect::<Vec<_>>()}
-        </ul>
-    }
-    .into_any()
-}
-
-#[component]
 fn StripSkeleton() -> impl IntoView {
     view! {
         <div class="mt-8 grid gap-6 md:grid-cols-3">
             <div class="h-40 animate-pulse rounded-sm border border-line bg-surface"></div>
             <div class="h-40 animate-pulse rounded-sm border border-line bg-surface"></div>
             <div class="h-40 animate-pulse rounded-sm border border-line bg-surface"></div>
+        </div>
+    }
+}
+
+#[component]
+fn RailSkeleton() -> impl IntoView {
+    view! {
+        <div class="mt-8 flex gap-4 overflow-hidden py-2">
+            <div class="h-36 w-64 shrink-0 animate-pulse rounded-sm border border-line bg-surface"></div>
+            <div class="h-36 w-64 shrink-0 animate-pulse rounded-sm border border-line bg-surface"></div>
+            <div class="h-36 w-64 shrink-0 animate-pulse rounded-sm border border-line bg-surface"></div>
         </div>
     }
 }

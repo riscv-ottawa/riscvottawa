@@ -48,12 +48,6 @@ pub async fn get_upcoming_events() -> Result<Vec<Event>, ServerFnError> {
         .collect())
 }
 
-#[server(GetFeaturedProjects, "/api")]
-pub async fn get_featured_projects() -> Result<Vec<Project>, ServerFnError> {
-    let store = expect_context::<ContentStore>();
-    Ok(store.projects.iter().take(3).cloned().collect())
-}
-
 // Events the countdown may display: anything whose start is still in the future
 // or finished within the last 12 hours. The client picks the active one and
 // advances to the next as each event's post-event window elapses. Sorted

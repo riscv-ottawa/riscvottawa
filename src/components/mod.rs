@@ -4,6 +4,8 @@ pub mod cpu_widget;
 pub mod event_card;
 pub mod footer;
 pub mod hero;
+pub mod modal;
 pub mod nav;
 pub mod project_card;
+pub mod project_rail;
 pub mod theme_toggle;

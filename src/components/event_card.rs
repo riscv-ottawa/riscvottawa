@@ -1,3 +1,4 @@
+use crate::components::modal::Modal;
 use crate::content::Event;
 use leptos::prelude::*;
 
@@ -61,67 +62,47 @@ pub fn EventCard(event: Event) -> impl IntoView {
                     }}
                 </div>
             </div>
-            {move || open.get().then(|| view! {
-                <div
-                    role="dialog"
-                    aria-modal="true"
-                    on:click=move |_| open.set(false)
-                    class="fixed inset-0 z-50 flex items-center justify-center bg-paper/80 p-4"
-                >
-                    <div
-                        on:click=|ev: leptos::ev::MouseEvent| ev.stop_propagation()
-                        class="relative max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-sm border border-line bg-surface p-8 shadow-soft"
-                    >
-                        <button
-                            type="button"
-                            aria-label="Close details"
-                            on:click=move |_| open.set(false)
-                            class="absolute right-4 top-4 rounded-sm border border-line px-2 py-0.5 font-mono text-sm text-mute hover:border-accent/60 hover:text-accent"
-                        >
-                            "x"
-                        </button>
-                        <p class="font-mono text-xs uppercase tracking-[0.3em] text-warm">
-                            {m_when.clone()}
-                        </p>
-                        <h2 class="mt-3 font-mono text-2xl font-bold text-ink md:text-3xl">
-                            {m_title.clone()}
-                        </h2>
-                        <p class="mt-1 text-sm text-mute">{m_location.clone()}</p>
-                        <p class="mt-6 text-ink/90">{m_description.clone()}</p>
-                        {(!m_tags.is_empty()).then(|| {
-                            let tags = m_tags.clone();
-                            view! {
-                                <div class="mt-6 flex flex-wrap gap-2">
-                                    {tags
-                                        .into_iter()
-                                        .map(|t| view! {
-                                            <span class="rounded-sm border border-line px-2 py-0.5 font-mono text-xs text-mute">
-                                                {t}
-                                            </span>
-                                        })
-                                        .collect::<Vec<_>>()}
-                                </div>
-                            }
-                        })}
-                        <div class="mt-8 flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.2em]">
-                            {if has_luma {
-                                view! {
-                                    <a
-                                        href=m_luma.clone()
-                                        target="_blank"
-                                        rel="noopener"
-                                        class="text-accent hover:text-accent-soft"
-                                    >
-                                        "RSVP on Luma"
-                                    </a>
-                                }.into_any()
-                            } else {
-                                view! { <span class="text-mute">{LUMA_PENDING}</span> }.into_any()
-                            }}
+            <Modal open>
+                <p class="font-mono text-xs uppercase tracking-[0.3em] text-warm">
+                    {m_when.clone()}
+                </p>
+                <h2 class="mt-3 font-mono text-2xl font-bold text-ink md:text-3xl">
+                    {m_title.clone()}
+                </h2>
+                <p class="mt-1 text-sm text-mute">{m_location.clone()}</p>
+                <p class="mt-6 text-ink/90">{m_description.clone()}</p>
+                {(!m_tags.is_empty()).then(|| {
+                    let tags = m_tags.clone();
+                    view! {
+                        <div class="mt-6 flex flex-wrap gap-2">
+                            {tags
+                                .into_iter()
+                                .map(|t| view! {
+                                    <span class="rounded-sm border border-line px-2 py-0.5 font-mono text-xs text-mute">
+                                        {t}
+                                    </span>
+                                })
+                                .collect::<Vec<_>>()}
                         </div>
-                    </div>
+                    }
+                })}
+                <div class="mt-8 flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.2em]">
+                    {if has_luma {
+                        view! {
+                            <a
+                                href=m_luma.clone()
+                                target="_blank"
+                                rel="noopener"
+                                class="text-accent hover:text-accent-soft"
+                            >
+                                "RSVP on Luma"
+                            </a>
+                        }.into_any()
+                    } else {
+                        view! { <span class="text-mute">{LUMA_PENDING}</span> }.into_any()
+                    }}
                 </div>
-            })}
+            </Modal>
         </li>
     }
 }
