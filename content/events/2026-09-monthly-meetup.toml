@@ -1,0 +1,9 @@
+title = "Monthly meetup (September)"
+date = "2026-09"
+location = "Location - TBD"
+summary = "Join the RISC-V Ottawa group each month for a feature talk, study group check-ins, project pitches, and networking. A pressure-free space to learn, build, and connect with fellow developers, students, and hobbyists. All welcome."
+description = """
+Each month, the Ottawa RISC-V User Group comes together for a mix of learning, building, and connecting. A typical meetup includes a feature talk alternating between hardware and software/firmware topics, check-ins from our hands-on study groups, an open floor for members to pitch projects and find collaborators, and time to network with fellow developers, students, and hobbyists. Whether you want to design a CPU core, write an RTOS driver, or simply explore what RISC-V has to offer, you'll find a pressure-free space to experiment and share. All welcome.
+"""
+luma_url = ""
+tags = ["open", "meetup", "monthly"]
