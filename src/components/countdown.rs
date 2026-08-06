@@ -76,8 +76,26 @@ enum Phase {
     Finished,
 }
 
+// Title plus start time in milliseconds since the epoch: everything the
+// countdown needs. Events that only have a month can't be counted down to, so
+// they never make it into this list.
+#[derive(Clone)]
+struct Scheduled {
+    title: String,
+    start_ms: f64,
+}
+
 #[component]
 pub fn Countdown(events: Vec<Event>) -> impl IntoView {
+    let events: Vec<Scheduled> = events
+        .into_iter()
+        .filter_map(|e| {
+            Some(Scheduled {
+                start_ms: e.date.instant()?.unix_timestamp() as f64 * 1000.0,
+                title: e.title,
+            })
+        })
+        .collect();
     let events = StoredValue::new(events);
     let now = RwSignal::new(now_ms());
 
@@ -99,17 +117,14 @@ pub fn Countdown(events: Vec<Event>) -> impl IntoView {
     // each one ages past RETIRE_WINDOW_MS. `None` once nothing is left to show.
     let active = Memo::new(move |_| {
         let now = now.get();
-        events.with_value(|evs| {
-            evs.iter()
-                .position(|e| now < e.date.unix_timestamp() as f64 * 1000.0 + RETIRE_WINDOW_MS)
-        })
+        events.with_value(|evs| evs.iter().position(|e| now < e.start_ms + RETIRE_WINDOW_MS))
     });
 
     move || {
         active.get().map(|idx| {
             let event = events.with_value(|evs| evs[idx].clone());
-            let target_ms = event.date.unix_timestamp() as f64 * 1000.0;
-            let title = event.title.clone();
+            let target_ms = event.start_ms;
+            let title = event.title;
 
             let remaining = move || ((target_ms - now.get()) / 1000.0).max(0.0) as i64;
             let days = move || remaining() / 86_400;

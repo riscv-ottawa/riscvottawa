@@ -2,7 +2,7 @@ pub mod event;
 pub mod project;
 pub mod resource;
 
-pub use event::Event;
+pub use event::{Event, EventDate};
 pub use project::{Level, Project};
 pub use resource::{ResourceLink, ResourceSection};
 
@@ -42,7 +42,7 @@ pub async fn get_upcoming_events() -> Result<Vec<Event>, ServerFnError> {
     Ok(store
         .events
         .iter()
-        .filter(|e| e.date >= now)
+        .filter(|e| e.date.is_upcoming(now))
         .take(3)
         .cloned()
         .collect())
@@ -51,7 +51,8 @@ pub async fn get_upcoming_events() -> Result<Vec<Event>, ServerFnError> {
 // Events the countdown may display: anything whose start is still in the future
 // or finished within the last 12 hours. The client picks the active one and
 // advances to the next as each event's post-event window elapses. Sorted
-// ascending by date (the content loader guarantees this).
+// ascending by date (the content loader guarantees this). Events that only have
+// a month are left out; there is no instant to count down to.
 #[server(GetCountdownEvents, "/api")]
 pub async fn get_countdown_events() -> Result<Vec<Event>, ServerFnError> {
     let store = expect_context::<ContentStore>();
@@ -59,7 +60,7 @@ pub async fn get_countdown_events() -> Result<Vec<Event>, ServerFnError> {
     Ok(store
         .events
         .iter()
-        .filter(|e| e.date >= cutoff)
+        .filter(|e| e.date.instant().is_some_and(|dt| dt >= cutoff))
         .cloned()
         .collect())
 }
@@ -72,7 +73,7 @@ pub async fn get_events_page() -> Result<EventsPageData, ServerFnError> {
     let upcoming: Vec<Event> = store
         .events
         .iter()
-        .filter(|e| e.date >= now)
+        .filter(|e| e.date.is_upcoming(now))
         .cloned()
         .collect();
     Ok(EventsPageData {

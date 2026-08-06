@@ -1,5 +1,5 @@
 use crate::components::modal::Modal;
-use crate::content::Event;
+use crate::content::{Event, EventDate};
 use leptos::prelude::*;
 
 #[component]
@@ -107,20 +107,28 @@ pub fn EventCard(event: Event) -> impl IntoView {
     }
 }
 
-pub fn format_event_date(dt: &time::OffsetDateTime) -> String {
+pub fn format_event_date(date: &EventDate) -> String {
     const MONTHS: [&str; 12] = [
         "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
     ];
     const WEEKDAYS: [&str; 7] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    let month_idx = (u8::from(dt.month()) - 1) as usize;
-    let weekday_idx = (dt.weekday().number_from_monday() - 1) as usize;
-    format!(
-        "{} {} {:02} {} \u{2022} {:02}:{:02}",
-        WEEKDAYS[weekday_idx],
-        MONTHS[month_idx],
-        dt.day(),
-        dt.year(),
-        dt.hour(),
-        dt.minute(),
-    )
+    match date {
+        EventDate::At(dt) => {
+            let month_idx = (u8::from(dt.month()) - 1) as usize;
+            let weekday_idx = (dt.weekday().number_from_monday() - 1) as usize;
+            format!(
+                "{} {} {:02} {} \u{2022} {:02}:{:02}",
+                WEEKDAYS[weekday_idx],
+                MONTHS[month_idx],
+                dt.day(),
+                dt.year(),
+                dt.hour(),
+                dt.minute(),
+            )
+        }
+        EventDate::Month { year, month } => {
+            let month_idx = (u8::from(*month) - 1) as usize;
+            format!("{} {year} \u{2022} Day TBD", MONTHS[month_idx])
+        }
+    }
 }

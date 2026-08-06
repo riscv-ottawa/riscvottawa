@@ -30,7 +30,7 @@ Create `content/events/<YYYY-MM-DD-slug>.toml`:
 
 ```toml
 title = "Intro to RISC-V"
-date = "2026-05-08T18:00:00-04:00"   # RFC3339
+date = "2026-05-08T18:00:00-04:00"   # RFC3339, or "2026-05" if only the month is settled
 location = "uOttawa, Ottawa"
 summary = "One-paragraph teaser shown in cards and the calendar."
 description = """

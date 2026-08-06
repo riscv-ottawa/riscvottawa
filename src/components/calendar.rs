@@ -16,9 +16,13 @@ pub fn Calendar(events: Vec<Event>, today: Date) -> impl IntoView {
     let view_state = RwSignal::new((today.year(), today.month()));
     let selected = RwSignal::new(None::<Date>);
 
+    // Events that only have a month have no day to sit on, so the grid skips
+    // them; they still show up in the agenda above it.
     let mut map: BTreeMap<Date, Vec<Event>> = BTreeMap::new();
     for e in events {
-        map.entry(e.date.date()).or_default().push(e);
+        if let Some(d) = e.date.date() {
+            map.entry(d).or_default().push(e);
+        }
     }
     let events_by_date = StoredValue::new(map);
 
@@ -210,7 +214,13 @@ fn SelectedDayPanel(date: Date, events: Vec<Event>) -> impl IntoView {
             <p class="font-mono text-xs uppercase tracking-[0.3em] text-accent">{header}</p>
             <ul class="mt-3 divide-y divide-line">
                 {events.into_iter().map(|e| {
-                    let time_label = format!("{:02}:{:02}", e.date.hour(), e.date.minute());
+                    // Every event in this panel came out of the day map, so it
+                    // has a start time.
+                    let time_label = e
+                        .date
+                        .instant()
+                        .map(|dt| format!("{:02}:{:02}", dt.hour(), dt.minute()))
+                        .unwrap_or_default();
                     let has_luma = !e.luma_url.trim().is_empty();
                     view! {
                         <li class="flex flex-col gap-2 py-3 md:flex-row md:items-baseline md:justify-between">

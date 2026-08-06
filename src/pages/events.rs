@@ -40,7 +40,7 @@ fn Body(data: EventsPageData) -> impl IntoView {
     let this_month: Vec<_> = data
         .upcoming
         .iter()
-        .filter(|ev| ev.date.year() == data.today.year() && ev.date.month() == data.today.month())
+        .filter(|ev| ev.date.in_month(data.today.year(), data.today.month()))
         .cloned()
         .collect();
     let agenda = if this_month.len() > 1 {
