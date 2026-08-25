@@ -40,6 +40,19 @@ luma_url = "https://lu.ma/your-event-id"
 tags = ["beginner", "architecture"]
 ```
 
+Leave `luma_url = ""` until the Luma page exists; the site shows "RSVP opens ~2 weeks before" in its place.
+
+### Checking events against Luma
+
+Luma is the source of truth for when and where an event happens and whether its page is live. The copy in `content/events/` is hand-crafted (with love), but to avoid potential mistakes, you can use the following to find where the two have drifted apart:
+
+```bash
+cargo test --features ssr --no-default-features --test luma_drift -- --ignored --nocapture
+```
+
+It reads the calendar's public ICS feed and reports events published on Luma while `luma_url` here is still empty, start times that moved, links that no longer resolve, and events on Luma with no file at all. Titles and venue strings are not compared.
+The test is `#[ignore]`d because it needs the network, so a plain `cargo test` skips it.
+
 ### A new project
 
 Create `content/projects/<NN-slug>.toml`:
@@ -118,7 +131,10 @@ The image is multi-stage: a `rust:bookworm` builder runs `cargo leptos build --r
 - `cargo fmt --all -- --check`
 - `cargo clippy --features ssr -- -D warnings`
 - `cargo clippy --features hydrate --target wasm32-unknown-unknown --lib -- -D warnings`
+- `cargo test --features ssr` (the network-bound Luma drift check is `#[ignore]`d and skipped here)
 - `cargo leptos build --release`
+
+`.github/workflows/luma-drift.yml` runs the drift check on its own, Mondays at 13:00 UTC and on demand from the Actions tab. It is kept off pull requests on purpose: it depends on Luma and fails for content reasons, so gating merges on it would turn unrelated changes red. Note that GitHub disables scheduled workflows after 60 days without repository activity.
 
 ## License
 

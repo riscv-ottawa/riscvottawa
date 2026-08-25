@@ -35,6 +35,11 @@ jobs:
       - name: Clippy (hydrate)
         run: cargo clippy --features hydrate --no-default-features --target wasm32-unknown-unknown --lib -- -D warnings
 
+      # Skips the Luma drift check, which is #[ignore]d because it needs the
+      # network. That one runs on a schedule in luma-drift.yml.
+      - name: Tests
+        run: cargo test --features ssr --no-default-features
+
       - name: Install cargo-leptos
         run: cargo install --locked cargo-leptos --version ${{ env.CARGO_LEPTOS_VERSION }}
 
