@@ -1,6 +1,6 @@
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::cmp::Ordering;
-use time::{Date, Month, OffsetDateTime};
+use time::{Date, Duration, Month, OffsetDateTime};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Event {
@@ -168,14 +168,13 @@ pub struct Panel {
     pub panelists: Vec<Speaker>,
 }
 
-/// One block in the run of show. Durations rather than clock times: we commit to
-/// how long each piece runs well before we commit to when the doors open, and
-/// printing invented start times we then have to correct is worse than showing
-/// the shape of the evening.
+/// One block in the run of show. Blocks carry a length rather than a clock
+/// time; the page derives the times by accumulating from the event's own start,
+/// so moving the doors time moves the whole evening with it.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Slot {
-    pub duration: String,
+    pub minutes: u32,
     pub title: String,
     #[serde(default)]
     pub presenter: String,
@@ -185,6 +184,35 @@ pub struct Slot {
     /// evening is actually built around.
     #[serde(default)]
     pub highlight: bool,
+}
+
+impl Slot {
+    /// What to print when there is no start instant to hang clock times off.
+    pub fn length_label(&self) -> String {
+        format!("{} min", self.minutes)
+    }
+}
+
+/// Clock ranges for a run of show, one label per slot and in order, accumulated
+/// from the event's start. Blocks run back to back, so each one begins where the
+/// previous ended.
+pub fn schedule_clock(start: OffsetDateTime, slots: &[Slot]) -> Vec<String> {
+    let mut cursor = start;
+    slots
+        .iter()
+        .map(|slot| {
+            let end = cursor + Duration::minutes(i64::from(slot.minutes));
+            let label = format!(
+                "{:02}:{:02} \u{2013} {:02}:{:02}",
+                cursor.hour(),
+                cursor.minute(),
+                end.hour(),
+                end.minute()
+            );
+            cursor = end;
+            label
+        })
+        .collect()
 }
 
 /// Something we're announcing at the event and not before. Withholding is the
@@ -321,6 +349,28 @@ mod tests {
         parse_event_date(raw).expect("valid timestamp")
     }
 
+    fn slot(minutes: u32) -> Slot {
+        Slot {
+            minutes,
+            title: "t".into(),
+            presenter: String::new(),
+            detail: String::new(),
+            highlight: false,
+        }
+    }
+
+    // The one thing that can actually go wrong here is a block whose length
+    // carries the cursor past the hour.
+    #[test]
+    fn schedule_clock_carries_across_the_hour() {
+        let start = match at("2026-09-30T18:45:00-04:00") {
+            EventDate::At(dt) => dt,
+            EventDate::Month { .. } => unreachable!(),
+        };
+        let labels = schedule_clock(start, &[slot(15), slot(45)]);
+        assert_eq!(labels, ["18:45 \u{2013} 19:00", "19:00 \u{2013} 19:45"]);
+    }
+
     #[test]
     fn parses_both_forms() {
         assert!(matches!(at("2026-09-16T18:30:00-04:00"), EventDate::At(_)));
@@ -412,7 +462,7 @@ mod tests {
             status = "pending"
 
             [[spotlight.schedule]]
-            duration = "30 min"
+            minutes = 30
             title = "Panel"
             highlight = true
             "#,

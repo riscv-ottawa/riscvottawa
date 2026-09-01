@@ -83,7 +83,7 @@ affiliation = "OpenHW Foundation"
 role = "Hardware"
 
 [[spotlight.schedule]]
-duration = "30 min + 15 min Q&A"          # durations, not clock times
+minutes = 45                              # block length; times computed from `date`
 title = "Panel: RISC-V in 2026"
 presenter = "Moderated by ..."            # optional
 detail = "Optional sentence."
@@ -94,6 +94,11 @@ label = "// project announcement"
 headline = "..."
 body = "..."
 ```
+
+The run of show carries block lengths, not clock times. The page accumulates them
+from the event's `date` and prints a range per block, so moving the start time
+moves the whole evening with it. An event dated `YYYY-MM` has nothing to anchor
+the first block to and prints lengths instead.
 
 ### Speaker headshots
 

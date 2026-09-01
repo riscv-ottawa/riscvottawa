@@ -3,7 +3,7 @@ slug = "september-2026"
 title = "Major event (September)"
 date = "2026-09-30T18:30:00-04:00"
 # location = "Carleton University, Minto CASE, Bell Theatre, 1125 Colonel By Drive, Ottawa, ON, K1S 5B6"
-location = "Location will be announced soon"
+location = "Location to be announced soon"
 summary = "September is our biggest night yet, offering: a Q&A style panel on where the RISC-V ecosystem stands in 2026 and where Canada fits, an invited talk from RISC-V International on how to get involved, member project tables, and the first public look at a major project RVO is starting. Free, all welcome."
 description = """
 September is not our regular meetup, it's something larger. RISC-V International joins us to talk about the programs universities and academics can use to get involved, and a five-person panel takes on the state of RISC-V hardware and software in 2026 and where Canadian engineers, researchers, and companies fit into it. Over the break, RVO members bring their in-flight projects to tables you can walk up to. The evening closes with the first public look at a project we are starting, including its phase one roadmap and how to get involved. No RISC-V experience assumed, and it costs nothing.
@@ -93,52 +93,54 @@ role = "Academic"
 photo = "/people/arash-ahmadi.jpg"
 
 [[spotlight.schedule]]
-duration = "5 min"
+minutes = 5
 title = "Welcome"
 presenter = "Yusef Karim, RISC-V Ottawa"
 
 [[spotlight.schedule]]
-duration = "5 min"
+minutes = 5
 title = "Agenda"
 presenter = "Fatimata Dramane, RISC-V Ottawa • Vlad Galeev, DESoc president"
 detail = "Our guides for the rest of the night."
 
 [[spotlight.schedule]]
-duration = "5 min"
+minutes = 5
 title = "Why learn and get involved with RISC-V now?"
 presenter = "Leonard MacEachern, Carleton University"
 
 [[spotlight.schedule]]
-duration = "10 min + 5 min Q&A"
+minutes = 15
 title = "An overview of the programs RISC-V International offers to get involved"
 presenter = "Megan Lehn, RISC-V International"
+detail = "Includes 5 min of audience Q&A."
 
 [[spotlight.schedule]]
-duration = "10 min + 5 min Q&A"
+minutes = 15
 title = "Second invited talk"
 presenter = "Speaker to be announced"
+detail = "Includes 5 min of audience Q&A."
 
 [[spotlight.schedule]]
-duration = "20 min"
+minutes = 20
 title = "Break, with member project tables"
 detail = "You may find RVO members set up around the room with the projects they are working on. Walk up to whichever one you want to know more about."
 
 [[spotlight.schedule]]
-duration = "30 min + 15 min Q&A"
+minutes = 45
 title = "Panel: RISC-V in 2026"
 presenter = "Moderated by Yusef Karim"
-detail = "Where the ecosystem stands, and where Canadian engineers, researchers, and companies fit into it."
+detail = "Where the ecosystem stands, and where Canadian engineers, researchers, and companies fit into it. Includes 15 min of audience Q&A."
 highlight = true
 
 [[spotlight.schedule]]
-duration = "15 min + 5 min Q&A"
+minutes = 20
 title = "Project announcement"
 presenter = "RISC-V Ottawa members"
-detail = "The first public look at a major project RVO is starting: the phase one roadmap, how to get involved, and the talent that it will foster."
+detail = "The first public look at a major project RVO is starting: the phase one roadmap, how to get involved, and the talent that it will foster. Includes 5 min of audience Q&A."
 highlight = true
 
 [[spotlight.schedule]]
-duration = "5-10 min"
+minutes = 10
 title = "Closing remarks"
 presenter = "RISC-V Ottawa members"
 

@@ -2,11 +2,14 @@ use crate::components::countdown::{start_ms, use_now, EventClock};
 use crate::components::event_card::format_event_date;
 use crate::components::prose::{single_line, Prose};
 use crate::components::rsvp::RsvpButton;
-use crate::content::{get_spotlight_event, Event, Panel, Slot, Speaker, Spotlight, Status, Teaser};
+use crate::content::{
+    get_spotlight_event, schedule_clock, Event, Panel, Slot, Speaker, Spotlight, Status, Teaser,
+};
 use leptos::prelude::*;
 use leptos_meta::{Meta, Title};
 use leptos_router::components::A;
 use leptos_router::hooks::use_params_map;
+use time::OffsetDateTime;
 
 const SITE_ORIGIN: &str = "https://riscvottawa.ca";
 const DISCORD_URL: &str = "https://discord.gg/EfryE4wfk4";
@@ -95,7 +98,9 @@ fn Body(event: Event) -> impl IntoView {
         {(!s.draws.is_empty()).then(|| view! { <Draws items=s.draws.clone()/> })}
         {(!s.speakers.is_empty()).then(|| view! { <Speakers items=s.speakers.clone()/> })}
         {s.panel.clone().map(|panel| view! { <PanelBlock panel/> })}
-        {(!s.schedule.is_empty()).then(|| view! { <RunOfShow items=s.schedule.clone()/> })}
+        {(!s.schedule.is_empty()).then(|| view! {
+            <RunOfShow items=s.schedule.clone() start=event.date.instant()/>
+        })}
         {s.teaser.clone().map(|teaser| view! { <TeaserBlock teaser/> })}
         {(!s.call_to_build.is_empty()).then(|| view! { <GetInvolved items=s.call_to_build.clone()/> })}
 
@@ -328,17 +333,28 @@ fn PanelBlock(panel: Panel) -> impl IntoView {
 }
 
 #[component]
-fn RunOfShow(items: Vec<Slot>) -> impl IntoView {
+fn RunOfShow(items: Vec<Slot>, start: Option<OffsetDateTime>) -> impl IntoView {
+    // An event we've committed to but not yet scheduled has no instant to hang
+    // the first block off, so it falls back to showing lengths.
+    let labels = match start {
+        Some(start) => schedule_clock(start, &items),
+        None => items.iter().map(Slot::length_label).collect(),
+    };
+    let note = if start.is_some() {
+        "Our plan for the night. Blocks can shift by a few minutes on the day."
+    } else {
+        "Block lengths are settled; exact start times land with the venue."
+    };
+
     view! {
         <section id="schedule" class="container-page hairline py-16">
             <SectionHead eyebrow="/ run of show" title="How the evening goes"/>
-            <p class="mt-4 max-w-2xl text-sm text-mute">
-                "Block lengths are settled; exact start times land with the venue."
-            </p>
+            <p class="mt-4 max-w-2xl text-sm text-mute">{note}</p>
             <ol class="mt-8 border-l border-line pl-6">
                 {items
                     .into_iter()
-                    .map(|slot| {
+                    .zip(labels)
+                    .map(|(slot, label)| {
                         // Muted dots on the rule, accent for the moments the
                         // evening is built around.
                         let dot = if slot.highlight {
@@ -355,7 +371,7 @@ fn RunOfShow(items: Vec<Slot>) -> impl IntoView {
                             <li class="relative pb-8 last:pb-0">
                                 <span class=dot></span>
                                 <p class="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-mute">
-                                    {slot.duration}
+                                    {label}
                                 </p>
                                 <p class=title_class>{slot.title}</p>
                                 {(!slot.presenter.is_empty()).then(|| view! {

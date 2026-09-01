@@ -180,8 +180,6 @@ fn read_toml_dir(dir: &Path) -> io::Result<Vec<(String, String, PathBuf)>> {
 mod tests {
     use super::*;
 
-    /// The shipped content parses. Without this the first sign of a broken file
-    /// is the server refusing to start, which is a slow way to find a typo.
     #[test]
     fn the_real_content_directory_loads() {
         let store = ContentStore::load_from_dir("content").expect("content/ parses");
@@ -189,15 +187,40 @@ mod tests {
         assert!(!store.projects.is_empty());
         assert!(!store.resources.is_empty());
 
-        // Spotlight blocks nest several tables deep, so check one all the way
-        // down rather than just that the file parsed.
-        if let Some(ev) = store.events.iter().find(|e| e.spotlight.is_some()) {
-            let s = ev.spotlight.as_ref().expect("checked above");
-            assert!(!s.headline.is_empty());
-            assert!(!s.draws.is_empty());
-            assert!(!s.schedule.is_empty());
-            assert!(!s.call_to_build.is_empty());
-            assert!(s.panel.as_ref().is_some_and(|p| !p.panelists.is_empty()));
+        // Spotlight blocks nest several tables deep, and a key in the wrong
+        // table renders an empty section rather than failing. Everything below
+        // the headline is optional while a lineup fills in, so require the
+        // headline and check that whatever sections are present came out with
+        // content in them.
+        for event in store.events.iter() {
+            let Some(s) = &event.spotlight else {
+                continue;
+            };
+            let slug = &event.slug;
+            assert!(!s.headline.is_empty(), "{slug}: spotlight needs a headline");
+            assert!(
+                s.draws.iter().all(|d| !d.trim().is_empty()),
+                "{slug}: empty entry in `draws`"
+            );
+            assert!(
+                s.call_to_build.iter().all(|c| !c.trim().is_empty()),
+                "{slug}: empty entry in `call_to_build`"
+            );
+            assert!(
+                s.schedule.iter().all(|slot| !slot.title.trim().is_empty()),
+                "{slug}: schedule slot with no title"
+            );
+            assert!(
+                s.schedule.iter().all(|slot| slot.minutes > 0),
+                "{slug}: schedule slot with no length, which renders as an empty time range"
+            );
+            if let Some(panel) = &s.panel {
+                assert!(!panel.title.is_empty(), "{slug}: panel needs a title");
+                assert!(
+                    !panel.panelists.is_empty(),
+                    "{slug}: panel with no panelists"
+                );
+            }
         }
     }
 
