@@ -40,7 +40,78 @@ luma_url = "https://lu.ma/your-event-id"
 tags = ["beginner", "architecture"]
 ```
 
-Leave `luma_url = ""` until the Luma page exists; the site shows "RSVP opens ~2 weeks before" in its place.
+The URL is `/events/<slug>`, and `slug` defaults to the file name without its extension. Set it explicitly on anything you have shared a link to:
+
+```toml
+slug = "september-2026"
+```
+
+Leave `luma_url = ""` until the Luma page exists. Cards and the calendar then show "RSVP opens ~2 weeks before" in place of the link, and a spotlight page's button subscribes people to <https://luma.com/riscv-ottawa> instead, so they get told the moment RSVP opens. Filling `luma_url` in switches every one of them to "Save your spot" with no other change.
+
+### A spotlight event
+
+Now and then a monthly meetup turns into a bigger night. Add a `[spotlight]` block to its file and it gets a page of its own at `/events/<filename-without-.toml>`, a band above the hero on the home page carrying the countdown, and a pinned block at the top of `/events`. Events without the block are untouched: card, modal, calendar cell, exactly as before.
+
+Only `kicker`, `headline`, and `tagline` are required. Everything else is optional and its section is left out when empty, so the page can go up as soon as there is something worth announcing.
+
+```toml
+[spotlight]
+kicker = "our biggest night yet"          # eyebrow above the headline
+headline = "RISC-V in 2026: ..."          # the marquee line, not `title`
+tagline = "One sentence: who it is for and what they leave with."
+draws = ["Three reasons to give up an evening, in the visitor's terms."]
+call_to_build = ["Skills and contributors we want, one line each."]
+og_image = "/og-september.png"            # optional; a 1200x630 file in public/
+
+[[spotlight.speakers]]
+name = "Megan Lehn"
+affiliation = "RISC-V International"
+affiliation_url = "https://riscv.org"     # optional; links the affiliation text
+role = "Invited talk"
+topic = "What they are speaking about."
+status = "confirmed"                      # confirmed (default) | pending | tba
+link = "https://example.com"              # optional; the person's own page
+
+[spotlight.panel]
+title = "Panel title"
+subtitle = "One line on what the panel covers."
+moderator = { name = "...", affiliation = "...", role = "Moderator" }
+
+[[spotlight.panel.panelists]]              # same shape as a speaker
+name = "Mike Thompson"
+affiliation = "OpenHW Foundation"
+role = "Hardware"
+
+[[spotlight.schedule]]
+duration = "30 min + 15 min Q&A"          # durations, not clock times
+title = "Panel: RISC-V in 2026"
+presenter = "Moderated by ..."            # optional
+detail = "Optional sentence."
+highlight = true                          # accent treatment; use it sparingly
+
+[spotlight.teaser]                        # something announced on the night only
+label = "// project announcement"
+headline = "..."
+body = "..."
+```
+
+### Speaker headshots
+
+Put the image under `public/`, which is served from the site root, and point at it with a site-root path:
+
+```toml
+[[spotlight.speakers]]
+name = "Megan Lehn"
+affiliation = "RISC-V International"
+photo = "/people/megan-lehn.jpg"
+```
+
+Square images, ideally around 256x256; anything else is cropped to a square by the browser.
+The same field works on panelists and on the panel moderator.
+
+`photo` is optional and worth leaving out until the picture actually exists. A speaker without one gets a circle with their initials, and a `tba` slot gets an empty dashed circle, so a half-filled lineup still looks deliberate and nothing shifts as photos arrive. A path pointing at a missing file fails `cargo test`, so a typo shows up before the broken image does.
+
+`status = "tba"` leaves the name out and renders a dashed "To be announced" card, which is the point: a lineup that visibly fills up gives people a reason to come back. `status = "pending"` shows the name with an "invited" mark. Only confirmed names appear on the home page band.
 
 ### Checking events against Luma
 

@@ -3,7 +3,10 @@ use crate::components::cpu_widget::CpuWidget;
 use crate::components::event_card::EventCard;
 use crate::components::hero::Hero;
 use crate::components::project_rail::ProjectRail;
-use crate::content::{get_countdown_events, get_projects, get_upcoming_events, Event};
+use crate::components::spotlight_band::SpotlightBand;
+use crate::content::{
+    get_countdown_events, get_featured_spotlight, get_projects, get_upcoming_events, Event,
+};
 use leptos::prelude::*;
 use leptos_meta::Title;
 use leptos_router::components::A;
@@ -13,14 +16,23 @@ pub fn Home() -> impl IntoView {
     let events = Resource::new_blocking(|| (), |_| async move { get_upcoming_events().await });
     let projects = Resource::new_blocking(|| (), |_| async move { get_projects().await });
     let countdown = Resource::new_blocking(|| (), |_| async move { get_countdown_events().await });
+    let featured = Resource::new_blocking(|| (), |_| async move { get_featured_spotlight().await });
 
     view! {
         <Title text="RISC-V Ottawa"/>
 
+        // Above the hero, because a night like this is the reason to visit at
+        // all that week. The band carries its own countdown, so the plain
+        // t-minus strip stands down while one is up rather than ticking twice.
         <Suspense fallback=|| ()>
-            {move || countdown.get().and_then(Result::ok).map(|events| {
-                view! { <Countdown events=events/> }
-            })}
+            {move || match featured.get().and_then(Result::ok).flatten() {
+                Some(event) => view! { <SpotlightBand event/> }.into_any(),
+                None => view! {
+                    {move || countdown.get().and_then(Result::ok).map(|events| {
+                        view! { <Countdown events=events/> }
+                    })}
+                }.into_any(),
+            }}
         </Suspense>
 
         <Hero/>

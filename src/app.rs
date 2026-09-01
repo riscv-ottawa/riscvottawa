@@ -2,12 +2,15 @@ use crate::components::{footer::Footer, nav::Nav};
 use crate::pages::code_of_conduct::CodeOfConduct;
 use crate::pages::governance::GovernanceOverview;
 use crate::pages::values::Values;
-use crate::pages::{events::Events, home::Home, projects::Projects, resources::Resources};
+use crate::pages::{
+    event_spotlight::EventSpotlight, events::Events, home::Home, projects::Projects,
+    resources::Resources,
+};
 use leptos::prelude::*;
 use leptos_meta::{provide_meta_context, HashedStylesheet, Meta, MetaTags, Title};
 use leptos_router::components::{Route, Router, Routes};
 use leptos_router::hooks::use_location;
-use leptos_router::StaticSegment;
+use leptos_router::{ParamSegment, SsrMode, StaticSegment};
 
 const THEME_INIT_SCRIPT: &str = "(function(){try{var s=localStorage.getItem('theme');var t=(s==='light'||s==='dark')?s:(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','dark')}})();";
 
@@ -51,6 +54,15 @@ pub fn App() -> impl IntoView {
                         <Route path=StaticSegment("") view=Home/>
                         <Route path=StaticSegment("projects") view=Projects/>
                         <Route path=StaticSegment("events") view=Events/>
+                        // Rendered fully on the server before anything is
+                        // sent. `leptos_meta` only picks up tags present in the
+                        // first chunk of the stream, and this page's whole
+                        // reason to exist is unfurling well when it's shared.
+                        <Route
+                            path=(StaticSegment("events"), ParamSegment("slug"))
+                            view=EventSpotlight
+                            ssr=SsrMode::Async
+                        />
                         <Route path=StaticSegment("resources") view=Resources/>
                         <Route path=StaticSegment("governance") view=GovernanceOverview/>
                         <Route path=StaticSegment("values") view=Values/>

@@ -1,0 +1,148 @@
+# Pinned so the URL survives the file being renamed when the date moves.
+slug = "september-2026"
+title = "Major event (September)"
+date = "2026-09-30T18:30:00-04:00"
+# location = "Carleton University, Minto CASE, Bell Theatre, 1125 Colonel By Drive, Ottawa, ON, K1S 5B6"
+location = "Location will be announced soon"
+summary = "September is our biggest night yet, offering: a Q&A style panel on where the RISC-V ecosystem stands in 2026 and where Canada fits, an invited talk from RISC-V International on how to get involved, member project tables, and the first public look at a major project RVO is starting. Free, all welcome."
+description = """
+September is not our regular meetup, it's something larger. RISC-V International joins us to talk about the programs universities and academics can use to get involved, and a five-person panel takes on the state of RISC-V hardware and software in 2026 and where Canadian engineers, researchers, and companies fit into it. Over the break, RVO members bring their in-flight projects to tables you can walk up to. The evening closes with the first public look at a project we are starting, including its phase one roadmap and how to get involved. No RISC-V experience assumed, and it costs nothing.
+"""
+luma_url = "https://luma.com/kiulkbm4"
+tags = ["open", "meetup", "monthly", "panel", "spotlight", "guest-speaker"]
+
+[spotlight]
+kicker = "our biggest night yet"
+headline = "RISC-V in 2026: Where the Ecosystem Stands, and Where Canada Fits"
+tagline = """
+An evening on the state of RISC-V hardware and software, and how Canadian engineers, students, researchers, and companies can get involved.
+
+Free, in Ottawa, no experience assumed.
+"""
+draws = [
+    "A Q&A style panel on where the RISC-V ecosystem actually stands in 2026, and where Canada fits into it, with panelists being the ones already contributing to the RISC-V hardware and the software ecosystem.",
+    "RISC-V International on the programs universities and academics can use to get involved.",
+    "The first public look at a major project RVO is starting: the phase one roadmap, how to get involved, and the talent that it will foster.",
+]
+
+# call_to_build = [
+#     "Members bring their in-flight projects to tables over the break. Come with questions, or with something you are building and want hands on.",
+#     "We are starting a book club around RISC-V System-on-Chip Design, tied to the MCU roadmap. The closing remarks cover how to join.",
+#     "The project we announce needs contributors from phase one. We will say which skills on the night, so come if you want first pick.",
+# ]
+
+[[spotlight.speakers]]
+name = "Leonard MacEachern"
+affiliation = "Carleton University, MOSAIC Group"
+affiliation_url = "https://maceacla.github.io/mosaic-group/"
+role = "Opening talk"
+topic = "Why learn and get involved with RISC-V now?"
+photo = "/people/leonard-maceachern.jpg"
+
+[[spotlight.speakers]]
+name = "Megan Lehn"
+affiliation = "RISC-V International"
+affiliation_url = "https://riscv.org"
+role = "Invited talk"
+topic = "An overview of the programs RISC-V International offers to get involved."
+photo = "/people/megan-lehn.jpg"
+
+[[spotlight.speakers]]
+role = "Second invited talk"
+topic = ""
+status = "tba"
+
+[spotlight.panel]
+title = "Where the ecosystem stands, and where Canada fits"
+subtitle = "A panel on the current state of RISC-V hardware and software, and how Canadian engineers, researchers, and companies can get involved."
+moderator = { name = "Yusef Karim", affiliation = "RISC-V Ottawa", role = "Moderator", photo = "/people/yusef-karim.png" }
+
+[[spotlight.panel.panelists]]
+name = "Mike Thompson"
+affiliation = "OpenHW Foundation"
+affiliation_url = "https://openhwfoundation.org"
+role = "Hardware"
+photo = "/people/mike-thompson.jpg"
+
+[[spotlight.panel.panelists]]
+# name = "Mike Borza"
+# affiliation = "Synopsys"
+# affiliation_url = "https://www.synopsys.com"
+role = "Hardware"
+status = "tba"
+
+[[spotlight.panel.panelists]]
+name = "Scott Bambrough"
+affiliation = "RISCstar"
+affiliation_url = "https://riscstar.com"
+role = "Software"
+# photo = "/people/scott-bambrough.jpg"
+
+[[spotlight.panel.panelists]]
+name = "Trevor Gamblin"
+affiliation = "BayLibre"
+affiliation_url = "https://baylibre.com"
+role = "Software"
+photo = "/people/trevor-gamblin.png"
+
+[[spotlight.panel.panelists]]
+name = "Arash Ahmadi"
+affiliation = "Carleton University, SHaRe Lab"
+affiliation_url = "https://carleton.ca/share/home/"
+role = "Academic"
+photo = "/people/arash-ahmadi.jpg"
+
+[[spotlight.schedule]]
+duration = "5 min"
+title = "Welcome"
+presenter = "Yusef Karim, RISC-V Ottawa"
+
+[[spotlight.schedule]]
+duration = "5 min"
+title = "Agenda"
+presenter = "Fatimata Dramane, RISC-V Ottawa • Vlad Galeev, DESoc president"
+detail = "Our guides for the rest of the night."
+
+[[spotlight.schedule]]
+duration = "5 min"
+title = "Why learn and get involved with RISC-V now?"
+presenter = "Leonard MacEachern, Carleton University"
+
+[[spotlight.schedule]]
+duration = "10 min + 5 min Q&A"
+title = "An overview of the programs RISC-V International offers to get involved"
+presenter = "Megan Lehn, RISC-V International"
+
+[[spotlight.schedule]]
+duration = "10 min + 5 min Q&A"
+title = "Second invited talk"
+presenter = "Speaker to be announced"
+
+[[spotlight.schedule]]
+duration = "20 min"
+title = "Break, with member project tables"
+detail = "You may find RVO members set up around the room with the projects they are working on. Walk up to whichever one you want to know more about."
+
+[[spotlight.schedule]]
+duration = "30 min + 15 min Q&A"
+title = "Panel: RISC-V in 2026"
+presenter = "Moderated by Yusef Karim"
+detail = "Where the ecosystem stands, and where Canadian engineers, researchers, and companies fit into it."
+highlight = true
+
+[[spotlight.schedule]]
+duration = "15 min + 5 min Q&A"
+title = "Project announcement"
+presenter = "RISC-V Ottawa members"
+detail = "The first public look at a major project RVO is starting: the phase one roadmap, how to get involved, and the talent that it will foster."
+highlight = true
+
+[[spotlight.schedule]]
+duration = "5-10 min"
+title = "Closing remarks"
+presenter = "RISC-V Ottawa members"
+
+[spotlight.teaser]
+label = "// project announcement"
+headline = "We are starting something. This is the night we say what."
+body = "Codename Craton will be publicly announced this night: what it is, the phase one roadmap and its milestones, how to get involved, and the talent that it will foster If you want in on an RVO project from the beginning, this is the one to be at"

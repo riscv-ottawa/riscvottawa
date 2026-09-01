@@ -60,20 +60,142 @@ fn refresh_when_visible(now: RwSignal<f64>) {
 #[cfg(not(feature = "hydrate"))]
 fn refresh_when_visible(_now: RwSignal<f64>) {}
 
+/// A signal holding the current time in milliseconds, ticking once a second on
+/// the client and resyncing whenever the tab comes back. Call it once per view
+/// that needs a clock and share the signal, so two countdowns on the same page
+/// cost one interval and stay in step.
+pub fn use_now() -> RwSignal<f64> {
+    let now = RwSignal::new(now_ms());
+
+    // Tick once a second on the client. The effect (and therefore the interval)
+    // never runs during SSR, and we clear it when the component unmounts.
+    Effect::new(move |_| {
+        let handle =
+            set_interval_with_handle(move || now.set(now_ms()), std::time::Duration::from_secs(1))
+                .expect("failed to start countdown interval");
+        on_cleanup(move || handle.clear());
+
+        // The interval alone is not enough: browsers throttle it in the
+        // background, so also resync whenever the tab is shown again.
+        refresh_when_visible(now);
+    });
+
+    now
+}
+
 const HOUR_MS: f64 = 3_600_000.0;
 // Once an event starts, keep showing "happening now" for this long, then
 // "just finished" until the retire window elapses and we advance to the next.
 const HAPPENING_WINDOW_MS: f64 = 4.0 * HOUR_MS;
-const RETIRE_WINDOW_MS: f64 = 12.0 * HOUR_MS;
+/// How long an event lingers after its start before we stop showing it. Mirrored
+/// server-side by `RETIRE_AFTER` in `content::mod`.
+pub const RETIRE_WINDOW_MS: f64 = 12.0 * HOUR_MS;
 
 #[derive(Clone, Copy, PartialEq)]
-enum Phase {
-    // Before the event starts: show the ticking countdown.
+pub enum Phase {
+    /// Before the event starts: show the ticking countdown.
     Counting,
-    // Within HAPPENING_WINDOW_MS after the start.
+    /// Within HAPPENING_WINDOW_MS after the start.
     Happening,
-    // Between HAPPENING_WINDOW_MS and RETIRE_WINDOW_MS after the start.
+    /// Between HAPPENING_WINDOW_MS and RETIRE_WINDOW_MS after the start.
     Finished,
+}
+
+pub fn phase_of(now_ms: f64, target_ms: f64) -> Phase {
+    let elapsed = now_ms - target_ms;
+    if elapsed < 0.0 {
+        Phase::Counting
+    } else if elapsed < HAPPENING_WINDOW_MS {
+        Phase::Happening
+    } else {
+        Phase::Finished
+    }
+}
+
+/// Start of an event in milliseconds since the epoch, or `None` for an event
+/// that only has a month settled and so has nothing to count down to.
+pub fn start_ms(event: &Event) -> Option<f64> {
+    event
+        .date
+        .instant()
+        .map(|dt| dt.unix_timestamp() as f64 * 1000.0)
+}
+
+/// The four ticking units. `large` is for the spotlight band, where the clock is
+/// the thing drawing the eye rather than a detail in a strip.
+#[component]
+pub fn CountdownClock(
+    target_ms: f64,
+    now: RwSignal<f64>,
+    #[prop(optional)] large: bool,
+) -> impl IntoView {
+    let remaining = move || ((target_ms - now.get()) / 1000.0).max(0.0) as i64;
+    let days = move || remaining() / 86_400;
+    let hours = move || (remaining() % 86_400) / 3_600;
+    let minutes = move || (remaining() % 3_600) / 60;
+    let seconds = move || remaining() % 60;
+
+    let digit = if large {
+        "text-4xl font-bold tabular-nums text-ink sm:text-5xl md:text-6xl"
+    } else {
+        "text-2xl font-bold tabular-nums text-ink md:text-3xl"
+    };
+    let colon = if large {
+        "pb-6 text-2xl font-bold text-line sm:text-3xl md:text-4xl"
+    } else {
+        "pb-4 text-xl font-bold text-line md:text-2xl"
+    };
+    let gap = if large {
+        "gap-4 md:gap-6"
+    } else {
+        "gap-3 md:gap-4"
+    };
+
+    view! {
+        <div class=format!("flex items-end font-mono {gap}")>
+            <Unit value=Signal::derive(days) label="days" class=digit/>
+            <span class=colon>":"</span>
+            <Unit value=Signal::derive(hours) label="hrs" class=digit/>
+            <span class=colon>":"</span>
+            <Unit value=Signal::derive(minutes) label="min" class=digit/>
+            <span class=colon>":"</span>
+            <Unit value=Signal::derive(seconds) label="sec" class=digit/>
+        </div>
+    }
+}
+
+/// One event's clock through its whole life: ticking digits until it starts,
+/// then a short status line while it runs and just after. Callers that may not
+/// have an exact start use `start_ms` first and decide for themselves what goes
+/// in the slot. `large` is for the home page band, where the clock is the thing
+/// drawing the eye rather than a detail beside a button.
+#[component]
+pub fn EventClock(
+    target_ms: f64,
+    now: RwSignal<f64>,
+    #[prop(optional)] large: bool,
+) -> impl IntoView {
+    let status = if large {
+        "font-mono text-xl font-bold uppercase tracking-[0.2em] text-accent md:text-2xl"
+    } else {
+        "font-mono text-lg font-bold uppercase tracking-[0.2em] text-accent"
+    };
+
+    // Via a memo, so the view is rebuilt only when the phase actually changes.
+    // Reading `now` straight from the view closure instead re-runs it on every
+    // tick, tearing down and remounting the whole clock once a second.
+    let phase = Memo::new(move |_| phase_of(now.get(), target_ms));
+
+    move || match phase.get() {
+        Phase::Counting => view! { <CountdownClock target_ms now large/> }.into_any(),
+        Phase::Happening => view! { <p class=status>"Happening now"</p> }.into_any(),
+        Phase::Finished => view! {
+            <p class="font-mono text-sm uppercase tracking-[0.2em] text-mute">
+                "That's a wrap, thanks for coming"
+            </p>
+        }
+        .into_any(),
+    }
 }
 
 // Title plus start time in milliseconds since the epoch: everything the
@@ -91,26 +213,13 @@ pub fn Countdown(events: Vec<Event>) -> impl IntoView {
         .into_iter()
         .filter_map(|e| {
             Some(Scheduled {
-                start_ms: e.date.instant()?.unix_timestamp() as f64 * 1000.0,
+                start_ms: start_ms(&e)?,
                 title: e.title,
             })
         })
         .collect();
     let events = StoredValue::new(events);
-    let now = RwSignal::new(now_ms());
-
-    // Tick once a second on the client. The effect (and therefore the interval)
-    // never runs during SSR, and we clear it when the component unmounts.
-    Effect::new(move |_| {
-        let handle =
-            set_interval_with_handle(move || now.set(now_ms()), std::time::Duration::from_secs(1))
-                .expect("failed to start countdown interval");
-        on_cleanup(move || handle.clear());
-
-        // The interval alone is not enough: browsers throttle it in the
-        // background, so also resync whenever the tab is shown again.
-        refresh_when_visible(now);
-    });
+    let now = use_now();
 
     // The active event is the soonest one whose retire window hasn't elapsed.
     // Events arrive sorted ascending, so this advances to the next event as
@@ -125,23 +234,7 @@ pub fn Countdown(events: Vec<Event>) -> impl IntoView {
             let event = events.with_value(|evs| evs[idx].clone());
             let target_ms = event.start_ms;
             let title = event.title;
-
-            let remaining = move || ((target_ms - now.get()) / 1000.0).max(0.0) as i64;
-            let days = move || remaining() / 86_400;
-            let hours = move || (remaining() % 86_400) / 3_600;
-            let minutes = move || (remaining() % 3_600) / 60;
-            let seconds = move || remaining() % 60;
-
-            let phase = Memo::new(move |_| {
-                let elapsed = now.get() - target_ms;
-                if elapsed < 0.0 {
-                    Phase::Counting
-                } else if elapsed < HAPPENING_WINDOW_MS {
-                    Phase::Happening
-                } else {
-                    Phase::Finished
-                }
-            });
+            let phase = Memo::new(move |_| phase_of(now.get(), target_ms));
 
             view! {
                 <section class="border-b border-line bg-surface">
@@ -155,15 +248,7 @@ pub fn Countdown(events: Vec<Event>) -> impl IntoView {
                         </div>
                         {move || match phase.get() {
                             Phase::Counting => view! {
-                                <div class="flex items-end gap-3 font-mono md:gap-4">
-                                    <Unit value=Signal::derive(days) label="days"/>
-                                    <Colon/>
-                                    <Unit value=Signal::derive(hours) label="hrs"/>
-                                    <Colon/>
-                                    <Unit value=Signal::derive(minutes) label="min"/>
-                                    <Colon/>
-                                    <Unit value=Signal::derive(seconds) label="sec"/>
-                                </div>
+                                <CountdownClock target_ms now/>
                             }.into_any(),
                             Phase::Happening => view! {
                                 <a
@@ -187,18 +272,11 @@ pub fn Countdown(events: Vec<Event>) -> impl IntoView {
 }
 
 #[component]
-fn Unit(value: Signal<i64>, label: &'static str) -> impl IntoView {
+fn Unit(value: Signal<i64>, label: &'static str, class: &'static str) -> impl IntoView {
     view! {
         <div class="flex flex-col items-center">
-            <span class="text-2xl font-bold tabular-nums text-ink md:text-3xl">
-                {move || format!("{:02}", value.get())}
-            </span>
+            <span class=class>{move || format!("{:02}", value.get())}</span>
             <span class="mt-1 text-[0.6rem] uppercase tracking-[0.25em] text-mute">{label}</span>
         </div>
     }
-}
-
-#[component]
-fn Colon() -> impl IntoView {
-    view! { <span class="pb-4 text-xl font-bold text-line md:text-2xl">":"</span> }
 }

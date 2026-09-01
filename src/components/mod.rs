@@ -8,4 +8,7 @@ pub mod modal;
 pub mod nav;
 pub mod project_card;
 pub mod project_rail;
+pub mod prose;
+pub mod rsvp;
+pub mod spotlight_band;
 pub mod theme_toggle;

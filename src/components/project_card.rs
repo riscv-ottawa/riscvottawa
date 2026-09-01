@@ -1,4 +1,5 @@
 use crate::components::modal::Modal;
+use crate::components::prose::Prose;
 use crate::content::{Level, Project};
 use leptos::prelude::*;
 
@@ -30,7 +31,7 @@ pub fn ProjectCard(project: Project) -> impl IntoView {
                 <span class=level_class>{level_label}</span>
             </div>
             <h3 class="mt-3 font-mono text-xl font-semibold text-ink">{project.title}</h3>
-            <p class="mt-2 text-sm text-ink/90">{project.summary}</p>
+            <Prose text=project.summary class="mt-2 text-sm text-ink/90"/>
             {prereqs.map(|p| view! {
                 <p class="mt-4 font-mono text-xs uppercase tracking-[0.3em] text-mute">
                     "prereqs // "{p}

@@ -1,4 +1,5 @@
 use crate::components::modal::Modal;
+use crate::components::prose::Prose;
 use crate::content::{Level, Project};
 use leptos::prelude::*;
 
@@ -73,7 +74,7 @@ pub fn ProjectRail(items: Vec<Project>) -> impl IntoView {
                     <h2 class="mt-3 font-mono text-2xl font-bold text-ink md:text-3xl">
                         {p.title}
                     </h2>
-                    <p class="mt-6 text-ink/90">{p.description}</p>
+                    <Prose text=p.description class="mt-6 text-ink/90"/>
                     {prereqs.map(|pr| view! {
                         <p class="mt-6 font-mono text-xs uppercase tracking-[0.3em] text-mute">
                             "prereqs // "{pr}

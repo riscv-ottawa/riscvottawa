@@ -2,7 +2,10 @@ pub mod event;
 pub mod project;
 pub mod resource;
 
-pub use event::{Event, EventDate};
+pub use event::{
+    Event, EventDate, Panel, Slot, Speaker, Spotlight, Status, Teaser, LUMA_CALENDAR_URL,
+    LUMA_PENDING,
+};
 pub use project::{Level, Project};
 pub use resource::{ResourceLink, ResourceSection};
 
@@ -56,13 +59,54 @@ pub async fn get_upcoming_events() -> Result<Vec<Event>, ServerFnError> {
 #[server(GetCountdownEvents, "/api")]
 pub async fn get_countdown_events() -> Result<Vec<Event>, ServerFnError> {
     let store = expect_context::<ContentStore>();
-    let cutoff = time::OffsetDateTime::now_utc() - time::Duration::hours(12);
+    let cutoff = time::OffsetDateTime::now_utc() - RETIRE_AFTER;
     Ok(store
         .events
         .iter()
         .filter(|e| e.date.instant().is_some_and(|dt| dt >= cutoff))
         .cloned()
         .collect())
+}
+
+// How long an event stays on the home page after it starts. Matches
+// `RETIRE_WINDOW_MS` in the countdown component: the timer and the spotlight
+// band should disappear together, not one and then the other.
+#[cfg(feature = "ssr")]
+const RETIRE_AFTER: time::Duration = time::Duration::hours(12);
+
+/// The event behind a `/events/<slug>` URL, but only if it is a spotlight.
+/// Ordinary meetups return `None` and the page renders a not-found, so we never
+/// ship a thin page for an event that has nothing extra to say.
+#[server(GetSpotlightEvent, "/api")]
+pub async fn get_spotlight_event(slug: String) -> Result<Option<Event>, ServerFnError> {
+    let store = expect_context::<ContentStore>();
+    Ok(store
+        .events
+        .iter()
+        .find(|e| e.slug == slug && e.spotlight.is_some())
+        .cloned())
+}
+
+/// The spotlight event to feature on the home page: the soonest one that hasn't
+/// aged out yet. `None` most months, which is the point.
+#[server(GetFeaturedSpotlight, "/api")]
+pub async fn get_featured_spotlight() -> Result<Option<Event>, ServerFnError> {
+    let store = expect_context::<ContentStore>();
+    let now = time::OffsetDateTime::now_utc();
+    // Events are sorted ascending, so the first match is the soonest. A
+    // month-only spotlight counts for the whole of its month; a scheduled one
+    // stays up until the retire window elapses.
+    Ok(store
+        .events
+        .iter()
+        .find(|e| {
+            e.spotlight.is_some()
+                && match e.date.instant() {
+                    Some(dt) => dt >= now - RETIRE_AFTER,
+                    None => e.date.is_upcoming(now),
+                }
+        })
+        .cloned())
 }
 
 #[server(GetEventsPage, "/api")]

@@ -67,7 +67,18 @@ async fn main() {
             },
         )
         .nest_service("/pkg", pkg_service)
-        .fallback(leptos_axum::file_and_error_handler(shell))
+        // The fallback renders the same `App` for anything the route list
+        // above didn't claim (an unknown path, a trailing slash, a missing
+        // asset). It therefore needs the same context: without it, any view it
+        // reaches that calls a server function hits `expect_context` and panics
+        // the worker instead of rendering.
+        .fallback(leptos_axum::file_and_error_handler_with_context(
+            {
+                let store = store.clone();
+                move || provide_context(store.clone())
+            },
+            shell,
+        ))
         .with_state(leptos_options)
         // Compress SSR HTML and assets on the fly (Brotli/gzip via content
         // negotiation). Self-contained so it works behind any proxy, or none;

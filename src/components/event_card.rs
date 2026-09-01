@@ -1,16 +1,16 @@
 use crate::components::modal::Modal;
-use crate::content::{Event, EventDate};
+use crate::components::prose::Prose;
+use crate::content::{Event, EventDate, LUMA_PENDING};
 use leptos::prelude::*;
+use leptos_router::components::A;
 
 #[component]
 pub fn EventCard(event: Event) -> impl IntoView {
     let when = format_event_date(&event.date);
     let tags = event.tags.clone();
 
-    // An empty Luma URL means the event page hasn't been published yet. We
-    // release Luma pages about two weeks before each event.
-    let has_luma = !event.luma_url.trim().is_empty();
-    const LUMA_PENDING: &str = "RSVP opens ~2 weeks before";
+    let has_luma = event.has_luma();
+    let spotlight_href = event.spotlight.as_ref().map(|_| event.href());
 
     let open = RwSignal::new(false);
 
@@ -26,7 +26,7 @@ pub fn EventCard(event: Event) -> impl IntoView {
             <p class="font-mono text-xs uppercase tracking-[0.3em] text-warm">{when}</p>
             <h3 class="mt-3 font-mono text-xl font-semibold text-ink">{event.title}</h3>
             <p class="mt-1 text-sm text-mute">{event.location}</p>
-            <p class="mt-4 text-sm text-ink/90">{event.summary}</p>
+            <Prose text=event.summary class="mt-4 text-sm text-ink/90"/>
             <div class="mt-auto flex flex-col gap-4 pt-5">
                 <div class="flex flex-wrap gap-2">
                     {tags
@@ -39,13 +39,27 @@ pub fn EventCard(event: Event) -> impl IntoView {
                         .collect::<Vec<_>>()}
                 </div>
                 <div class="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs uppercase tracking-[0.2em]">
-                    <button
-                        type="button"
-                        on:click=move |_| open.set(true)
-                        class="text-accent hover:text-accent-soft underline"
-                    >
-                        "Details"
-                    </button>
+                    // A spotlight event has a page worth landing on, so the
+                    // card links there instead of opening the modal.
+                    {match spotlight_href.clone() {
+                        Some(href) => view! {
+                            <A
+                                href=href
+                                attr:class="text-accent hover:text-accent-soft underline"
+                            >
+                                "Full details \u{2192}"
+                            </A>
+                        }.into_any(),
+                        None => view! {
+                            <button
+                                type="button"
+                                on:click=move |_| open.set(true)
+                                class="text-accent hover:text-accent-soft underline"
+                            >
+                                "Details"
+                            </button>
+                        }.into_any(),
+                    }}
                     {if has_luma {
                         view! {
                             <a
@@ -70,7 +84,7 @@ pub fn EventCard(event: Event) -> impl IntoView {
                     {m_title.clone()}
                 </h2>
                 <p class="mt-1 text-sm text-mute">{m_location.clone()}</p>
-                <p class="mt-6 text-ink/90">{m_description.clone()}</p>
+                <Prose text=m_description.clone() class="mt-6 text-ink/90"/>
                 {(!m_tags.is_empty()).then(|| {
                     let tags = m_tags.clone();
                     view! {
@@ -107,11 +121,12 @@ pub fn EventCard(event: Event) -> impl IntoView {
     }
 }
 
+const MONTHS: [&str; 12] = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+const WEEKDAYS: [&str; 7] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 pub fn format_event_date(date: &EventDate) -> String {
-    const MONTHS: [&str; 12] = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    ];
-    const WEEKDAYS: [&str; 7] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     match date {
         EventDate::At(dt) => {
             let month_idx = (u8::from(dt.month()) - 1) as usize;
@@ -131,4 +146,14 @@ pub fn format_event_date(date: &EventDate) -> String {
             format!("{} {year} \u{2022} Day TBD", MONTHS[month_idx])
         }
     }
+}
+
+/// Month and year alone, for places that show the day separately or don't have
+/// one settled yet.
+pub fn format_event_month(date: &EventDate) -> String {
+    let (year, month) = match date {
+        EventDate::At(dt) => (dt.year(), u8::from(dt.month())),
+        EventDate::Month { year, month } => (*year, u8::from(*month)),
+    };
+    format!("{} {year}", MONTHS[(month - 1) as usize])
 }

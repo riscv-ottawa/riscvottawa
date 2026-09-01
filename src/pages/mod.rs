@@ -1,4 +1,5 @@
 pub mod code_of_conduct;
+pub mod event_spotlight;
 pub mod events;
 pub mod governance;
 pub mod home;
