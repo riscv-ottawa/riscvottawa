@@ -3,7 +3,8 @@ use crate::components::event_card::format_event_date;
 use crate::components::prose::{single_line, Prose};
 use crate::components::rsvp::RsvpButton;
 use crate::content::{
-    get_spotlight_event, schedule_clock, Event, Panel, Slot, Speaker, Spotlight, Status, Teaser,
+    get_spotlight_event, schedule_clock, Event, Extra, Panel, Slot, Speaker, Spotlight, Status,
+    Teaser,
 };
 use leptos::prelude::*;
 use leptos_meta::{Meta, Title};
@@ -98,6 +99,7 @@ fn Body(event: Event) -> impl IntoView {
         {(!s.draws.is_empty()).then(|| view! { <Draws items=s.draws.clone()/> })}
         {(!s.speakers.is_empty()).then(|| view! { <Speakers items=s.speakers.clone()/> })}
         {s.panel.clone().map(|panel| view! { <PanelBlock panel/> })}
+        {(!s.extras.is_empty()).then(|| view! { <Extras items=s.extras.clone()/> })}
         {(!s.schedule.is_empty()).then(|| view! {
             <RunOfShow items=s.schedule.clone() start=event.date.instant()/>
         })}
@@ -332,6 +334,78 @@ fn PanelBlock(panel: Panel) -> impl IntoView {
     }
 }
 
+/// Pizza, giveaways, and the slots we still need someone to cover. It sits
+/// under the panel because it is an aside to the lineup, not part of it, and
+/// people who have already decided to come are the ones who read this far.
+#[component]
+fn Extras(items: Vec<Extra>) -> impl IntoView {
+    view! {
+        <section class="container-page py-16">
+            <SectionHead eyebrow="/ on the night" title="Pizza, and something to take home"/>
+            <ul class="mt-8 grid gap-6 md:grid-cols-2">
+                {items
+                    .into_iter()
+                    .map(|extra| view! { <li><ExtraCard extra/></li> })
+                    .collect::<Vec<_>>()}
+            </ul>
+        </section>
+    }
+}
+
+/// One aside. An unfilled one takes the same dashed frame as an unfilled
+/// speaker slot: the page already uses that to mean "we want this and do not
+/// have it yet", and saying so plainly is what gets it filled.
+#[component]
+fn ExtraCard(extra: Extra) -> impl IntoView {
+    let wanted = extra.status == Status::Tba;
+    let frame = if wanted {
+        "h-full rounded-sm border border-dashed border-warm/60 bg-surface/50 p-6"
+    } else {
+        "h-full rounded-sm border border-line bg-surface p-6"
+    };
+    let cta_url = extra.cta_url.trim().to_string();
+    let cta_label = extra.cta_label.trim().to_string();
+    // A `mailto:` hands off to the mail client, so sending it to a new tab
+    // leaves an empty one behind. Only real pages get `_blank`.
+    let new_tab = cta_url.starts_with("http");
+
+    view! {
+        <div class=frame>
+            <div class="flex flex-col gap-5 sm:flex-row sm:items-start">
+                {extra.image.clone().map(|src| view! {
+                    <img
+                        src=src
+                        alt=extra.title.clone()
+                        width="96"
+                        loading="lazy"
+                        decoding="async"
+                        class="w-24 shrink-0 self-start rounded-sm object-contain"
+                    />
+                })}
+                <div class="min-w-0">
+                    <p class="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-warm">
+                        {extra.label}
+                    </p>
+                    <p class="mt-2 font-mono text-lg font-semibold text-ink">{extra.title}</p>
+                    <Prose text=extra.body class="mt-3 text-sm text-ink/90"/>
+                    {(!cta_url.is_empty() && !cta_label.is_empty()).then(|| view! {
+                        <p class="mt-5">
+                            <a
+                                href=cta_url
+                                target=new_tab.then_some("_blank")
+                                rel=new_tab.then_some("noopener")
+                                class="font-mono text-xs uppercase tracking-[0.2em] text-accent transition hover:text-accent-soft"
+                            >
+                                {cta_label}
+                            </a>
+                        </p>
+                    })}
+                </div>
+            </div>
+        </div>
+    }
+}
+
 #[component]
 fn RunOfShow(items: Vec<Slot>, start: Option<OffsetDateTime>) -> impl IntoView {
     // An event we've committed to but not yet scheduled has no instant to hang
@@ -348,7 +422,7 @@ fn RunOfShow(items: Vec<Slot>, start: Option<OffsetDateTime>) -> impl IntoView {
 
     view! {
         <section id="schedule" class="container-page hairline py-16">
-            <SectionHead eyebrow="/ run of show" title="How the evening goes"/>
+            <SectionHead eyebrow="/ agenda" title="How the evening goes"/>
             <p class="mt-4 max-w-2xl text-sm text-mute">{note}</p>
             <ol class="mt-8 border-l border-line pl-6">
                 {items

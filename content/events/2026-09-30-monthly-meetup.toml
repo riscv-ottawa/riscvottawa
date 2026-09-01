@@ -92,6 +92,31 @@ affiliation_url = "https://carleton.ca/share/home/"
 role = "Academic"
 photo = "/people/arash-ahmadi.jpg"
 
+[[spotlight.extras]]
+label = "pizza"
+title = "We are looking for a pizza sponsor"
+image = "/pizza.svg"
+status = "tba"
+body = """
+Food is the one real cost this event has, and we would be so happy if it came from a company that wants to meet the people in the room. A sponsor gets named from the stage and on this page.
+
+If that could be your company, email the organizers.
+"""
+cta_label = "organizers@riscvottawa.ca \u2192"
+cta_url = "mailto:organizers@riscvottawa.ca"
+
+[[spotlight.extras]]
+label = "raffle"
+title = "A copy of RISC-V System-on-Chip Design to take home"
+image = "/RISC-V_System-on-Chip_Design.jpg"
+body = """
+Harris, Stine, Thompson, and Harris on designing, verifying, and integrating a RISC-V SoC with its peripherals. One copy goes home with someone in the room.
+
+We will draw the winner before the closing remarks.
+"""
+cta_label = "About the book \u2192"
+cta_url = "https://pages.hmc.edu/harris/ddca/rvsocd.html"
+
 [[spotlight.schedule]]
 minutes = 5
 title = "Welcome"

@@ -224,12 +224,25 @@ mod tests {
         }
     }
 
-    /// A `photo` pointing at a file that isn't there renders as a broken image
-    /// on a public page and nothing else complains, so check the paths resolve.
+    /// An image path pointing at a file that isn't there renders as a broken
+    /// image on a public page and nothing else complains, so check they resolve.
     #[test]
-    fn every_speaker_photo_exists() {
+    fn every_spotlight_image_exists() {
         let store = ContentStore::load_from_dir("content").expect("content/ parses");
         let mut checked = 0;
+
+        let check = |image: &str, owner: &str| {
+            assert!(
+                image.starts_with('/'),
+                "{owner}: image `{image}` must be a site-root path like `/people/name.jpg`"
+            );
+            let path = Path::new("public").join(image.trim_start_matches('/'));
+            assert!(
+                path.is_file(),
+                "{owner}: image `{image}` has no file at {}",
+                path.display()
+            );
+        };
 
         for event in store.events.iter() {
             let Some(spotlight) = &event.spotlight else {
@@ -244,21 +257,18 @@ mod tests {
                 let Some(photo) = &speaker.photo else {
                     continue;
                 };
-                assert!(
-                    photo.starts_with('/'),
-                    "{}: photo `{photo}` must be a site-root path like `/speakers/name.jpg`",
-                    speaker.display_name()
-                );
-                let path = Path::new("public").join(photo.trim_start_matches('/'));
-                assert!(
-                    path.is_file(),
-                    "{}: photo `{photo}` has no file at {}",
-                    speaker.display_name(),
-                    path.display()
-                );
+                check(photo, speaker.display_name());
+                checked += 1;
+            }
+
+            for extra in spotlight.extras.iter() {
+                let Some(image) = &extra.image else {
+                    continue;
+                };
+                check(image, &extra.title);
                 checked += 1;
             }
         }
-        println!("checked {checked} speaker photos");
+        println!("checked {checked} spotlight images");
     }
 }

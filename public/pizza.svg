@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="A slice of pizza">
+  <title>A slice of pizza</title>
+  <!-- Flat warm tones, no stroke and no theme swap: the palette reads on both
+       the light and the dark surface, and a pizza is the same colour either way. -->
+  <path d="M10 44 Q60 26 110 44 L60 112 Z" fill="#d9a18d"/>
+  <path d="M10 44 Q60 2 110 44 Q60 26 10 44 Z" fill="#c08070"/>
+  <circle cx="44" cy="58" r="7" fill="#8c4a3e"/>
+  <circle cx="75" cy="62" r="6" fill="#8c4a3e"/>
+  <circle cx="59" cy="83" r="6" fill="#8c4a3e"/>
+  <circle cx="60" cy="47" r="3.5" fill="#8c4a3e" opacity="0.55"/>
+  <circle cx="33" cy="47" r="2.5" fill="#8c4a3e" opacity="0.55"/>
+  <circle cx="88" cy="49" r="2.5" fill="#8c4a3e" opacity="0.55"/>
+</svg>

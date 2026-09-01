@@ -3,7 +3,7 @@ pub mod project;
 pub mod resource;
 
 pub use event::{
-    schedule_clock, Event, EventDate, Panel, Slot, Speaker, Spotlight, Status, Teaser,
+    schedule_clock, Event, EventDate, Extra, Panel, Slot, Speaker, Spotlight, Status, Teaser,
     LUMA_CALENDAR_URL, LUMA_PENDING,
 };
 pub use project::{Level, Project};

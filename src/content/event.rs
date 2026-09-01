@@ -65,6 +65,10 @@ pub struct Spotlight {
     pub speakers: Vec<Speaker>,
     #[serde(default)]
     pub panel: Option<Panel>,
+    /// The practical asides: what we're feeding people, what we're giving away,
+    /// what we still need someone to cover.
+    #[serde(default)]
+    pub extras: Vec<Extra>,
     #[serde(default)]
     pub schedule: Vec<Slot>,
     #[serde(default)]
@@ -168,7 +172,7 @@ pub struct Panel {
     pub panelists: Vec<Speaker>,
 }
 
-/// One block in the run of show. Blocks carry a length rather than a clock
+/// One block in the agenda. Blocks carry a length rather than a clock
 /// time; the page derives the times by accumulating from the event's own start,
 /// so moving the doors time moves the whole evening with it.
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -193,7 +197,7 @@ impl Slot {
     }
 }
 
-/// Clock ranges for a run of show, one label per slot and in order, accumulated
+/// Clock ranges for a agenda, one label per slot and in order, accumulated
 /// from the event's start. Blocks run back to back, so each one begins where the
 /// previous ended.
 pub fn schedule_clock(start: OffsetDateTime, slots: &[Slot]) -> Vec<String> {
@@ -213,6 +217,31 @@ pub fn schedule_clock(start: OffsetDateTime, slots: &[Slot]) -> Vec<String> {
             label
         })
         .collect()
+}
+
+/// One aside about the night itself: pizza, a giveaway, a slot we still need a
+/// sponsor for. `Status::Tba` marks the ones that are asks rather than
+/// promises, and the card is drawn unfilled to match.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Extra {
+    /// Eyebrow above the title, e.g. "pizza" or "raffle".
+    pub label: String,
+    pub title: String,
+    pub body: String,
+    /// Site-root path to a picture under `public/`, e.g. `/pizza.svg`. Same rule
+    /// as a speaker photo: left out until the file exists, and the card lays
+    /// itself out as text alone when it is missing.
+    #[serde(default)]
+    pub image: Option<String>,
+    #[serde(default)]
+    pub status: Status,
+    /// Both halves of the link, or neither. A label with no URL would render as
+    /// dead text where people expect somewhere to click.
+    #[serde(default)]
+    pub cta_label: String,
+    #[serde(default)]
+    pub cta_url: String,
 }
 
 /// Something we're announcing at the event and not before. Withholding is the
@@ -465,6 +494,12 @@ mod tests {
             minutes = 30
             title = "Panel"
             highlight = true
+
+            [[spotlight.extras]]
+            label = "pizza"
+            title = "We are looking for a pizza sponsor"
+            body = "Message an organizer."
+            status = "tba"
             "#,
         )
         .expect("valid spotlight");
@@ -483,6 +518,8 @@ mod tests {
         assert!(s.speakers[1].affiliation_url.is_none());
         assert_eq!(s.speakers[1].display_name(), "To be announced");
         assert!(s.schedule[0].highlight);
+        // An unfilled extra is an ask, and the page draws it differently.
+        assert_eq!(s.extras[0].status, Status::Tba);
         assert_eq!(s.panel.expect("panel").moderator.name, "Yusef");
     }
 

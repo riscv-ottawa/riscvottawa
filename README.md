@@ -89,13 +89,22 @@ presenter = "Moderated by ..."            # optional
 detail = "Optional sentence."
 highlight = true                          # accent treatment; use it sparingly
 
+[[spotlight.extras]]                       # asides: pizza, giveaways, sponsor slots
+label = "pizza"                           # eyebrow above the title
+title = "We are looking for a pizza sponsor"
+image = "/pizza.svg"                      # optional; a file in public/
+body = "A sentence or two. Blank lines become paragraphs."
+status = "tba"                            # optional; draws the card unfilled, as an ask
+cta_label = "organizers@riscvottawa.ca \u2192"  # optional; needs `cta_url` to render
+cta_url = "mailto:organizers@riscvottawa.ca"   # `http` links open in a new tab, mailto does not
+
 [spotlight.teaser]                        # something announced on the night only
 label = "// project announcement"
 headline = "..."
 body = "..."
 ```
 
-The run of show carries block lengths, not clock times. The page accumulates them
+The agenda carries block lengths, not clock times. The page accumulates them
 from the event's `date` and prints a range per block, so moving the start time
 moves the whole evening with it. An event dated `YYYY-MM` has nothing to anchor
 the first block to and prints lengths instead.
