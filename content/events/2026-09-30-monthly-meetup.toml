@@ -2,8 +2,7 @@
 slug = "september-2026"
 title = "Major event (September)"
 date = "2026-09-30T18:30:00-04:00"
-# location = "Carleton University, Minto CASE, Bell Theatre, 1125 Colonel By Drive, Ottawa, ON, K1S 5B6"
-location = "Location to be announced soon"
+location = "Carleton University, Minto CASE, Bell Theatre, 1125 Colonel By Drive, Ottawa, ON, K1S 5B6"
 summary = "September is our biggest night yet, offering: a Q&A style panel on where the RISC-V ecosystem stands in 2026 and where Canada fits, an invited talk from RISC-V International on how to get involved, member project tables, and the first public look at a major project RVO is starting. Free, all welcome."
 description = """
 September is not our regular meetup, it's something larger. RISC-V International joins us to talk about the programs universities and academics can use to get involved, and a five-person panel takes on the state of RISC-V hardware and software in 2026 and where Canadian engineers, researchers, and companies fit into it. Over the break, RVO members bring their in-flight projects to tables you can walk up to. The evening closes with the first public look at a project we are starting, including its phase one roadmap and how to get involved. No RISC-V experience assumed, and it costs nothing.
@@ -64,12 +63,12 @@ affiliation_url = "https://openhwfoundation.org"
 role = "Hardware"
 photo = "/people/mike-thompson.jpg"
 
-[[spotlight.panel.panelists]]
+# [[spotlight.panel.panelists]]
 # name = "Mike Borza"
 # affiliation = "Synopsys"
 # affiliation_url = "https://www.synopsys.com"
-role = "Hardware"
-status = "tba"
+# role = "Hardware"
+# status = "tba"
 
 [[spotlight.panel.panelists]]
 name = "Scott Bambrough"
@@ -104,18 +103,18 @@ We will draw the winner before the closing remarks.
 cta_label = "About the book \u2192"
 cta_url = "https://pages.hmc.edu/harris/ddca/rvsocd.html"
 
-[[spotlight.extras]]
-label = "pizza"
-title = "We are looking for a pizza sponsor"
-image = "/pizza.svg"
-status = "tba"
-body = """
-Food is the one real cost this event has, and we would be so happy if it came from a company that wants to meet the people in the room. A sponsor gets named from the stage and on this page.
-
-If that could be your company, email the organizers.
-"""
-cta_label = "organizers@riscvottawa.ca \u2192"
-cta_url = "mailto:organizers@riscvottawa.ca"
+# [[spotlight.extras]]
+# label = "pizza"
+# title = "We are looking for a pizza sponsor"
+# image = "/pizza.svg"
+# status = "tba"
+# body = """
+# Food is the one real cost this event has, and we would be so happy if it came from a company that wants to meet the people in the room. A sponsor gets named from the stage and on this page.
+#
+# If that could be your company, email the organizers.
+# """
+# cta_label = "organizers@riscvottawa.ca \u2192"
+# cta_url = "mailto:organizers@riscvottawa.ca"
 
 [[spotlight.schedule]]
 minutes = 5

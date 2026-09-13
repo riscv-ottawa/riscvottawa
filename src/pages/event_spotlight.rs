@@ -302,6 +302,14 @@ fn PanelBlock(panel: Panel) -> impl IntoView {
     }
     .to_string();
 
+    // Four panelists across three columns leaves one stranded on its own row,
+    // so pair them up two by two instead.
+    let panelist_grid = if panel.panelists.len() == 4 {
+        "mt-8 grid gap-4 sm:grid-cols-2"
+    } else {
+        "mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+    };
+
     view! {
         <section id="panel" class="container-page py-16">
             <div class="rounded-sm border border-accent/60 bg-surface p-8 shadow-soft md:p-12">
@@ -323,7 +331,7 @@ fn PanelBlock(panel: Panel) -> impl IntoView {
                         })}
                     </p>
                 </div>
-                <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <ul class=panelist_grid>
                     {panel.panelists
                         .into_iter()
                         .map(|speaker| view! { <li><SpeakerCard speaker/></li> })
@@ -334,14 +342,14 @@ fn PanelBlock(panel: Panel) -> impl IntoView {
     }
 }
 
-/// Pizza, giveaways, and the slots we still need someone to cover. It sits
+/// Giveaways, pizza, and the slots we still need someone to cover. It sits
 /// under the panel because it is an aside to the lineup, not part of it, and
 /// people who have already decided to come are the ones who read this far.
 #[component]
 fn Extras(items: Vec<Extra>) -> impl IntoView {
     view! {
         <section class="container-page py-16">
-            <SectionHead eyebrow="/ on the night" title="Pizza, and something to take home"/>
+            <SectionHead eyebrow="/ on the night" title="Additional activities"/>
             <ul class="mt-8 grid gap-6 md:grid-cols-2">
                 {items
                     .into_iter()
