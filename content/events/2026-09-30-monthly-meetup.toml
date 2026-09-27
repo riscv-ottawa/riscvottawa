@@ -47,9 +47,12 @@ topic = "An overview of the programs RISC-V International offers to get involved
 photo = "/people/megan-lehn.jpg"
 
 [[spotlight.speakers]]
-role = "Second invited talk"
-topic = ""
-status = "tba"
+name = "Yuning Liang"
+affiliation = "DeepComputing"
+affiliation_url = "https://deepcomputing.io/"
+role = "Invited talk"
+topic = "RISC-V, AI, and robotics."
+photo = "/people/yuning-liang.jpg"
 
 [spotlight.panel]
 title = "Where the ecosystem stands, and where Canada fits"
@@ -140,8 +143,8 @@ detail = "Includes 5 min of audience Q&A."
 
 [[spotlight.schedule]]
 minutes = 15
-title = "Second invited talk"
-presenter = "Speaker to be announced"
+title = "RISC-V, AI, and robotics"
+presenter = "Yuning Liang, DeepComputing"
 detail = "Includes 5 min of audience Q&A."
 
 [[spotlight.schedule]]
