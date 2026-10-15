@@ -1,0 +1,11 @@
+title = "Project Craton: an Open RV32 Microcontroller"
+level = "advanced"
+summary = "Design an RV32 microcontroller for real-time and RTOS workloads, built around a fork of the OpenHW CORE-V CV32E40X, from RTL through FPGA validation to silicon"
+description = """
+Craton is a system on chip designed in the open by RISC-V Ottawa, with a fork of the OpenHW Foundation CORE-V CV32E40X at its heart.
+FPGAs are used for validation only; silicon is the end goal.
+Everything lives in one repository: the RTL, the verification environment, software, the FPGA and physical design flows, and the documentation book.
+The project is just getting started, so there is room to help shape the architecture as well as build it.
+"""
+prerequisites = ["rtl", "verification", "shell"]
+website_url = "https://craton.riscvottawa.ca/"
