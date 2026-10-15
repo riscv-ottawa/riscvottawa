@@ -1,0 +1,9 @@
+title = "Monthly meetup (October)"
+date = "2026-10-26T18:30:00-04:00"
+location = "Hub350, Kanata North (350 Legget Drive, Kanata, ON K2K 3N1)"
+summary = "The October meetup of RISC-V Ottawa features an invited talk on functional safety with RISC-V, RVO member project updates and demos, and time to network with professionals, students, and hobbyists. All welcome."
+description = """
+Join us for the October meetup of RISC-V Ottawa (RVO), our first regular meetup since September's major event. The evening opens with a welcome and community catch-up, followed by an invited talk and Q&A on functional safety: what it really means, how an open-source RTOS earns safety certification, and the RISC-V hardware mechanisms a safety-critical system relies on. We'll then hear project updates and see demos from members on the builds, tools, and testbenches underway in Ottawa, before closing with open networking. Whether you are a student, seasoned professional, or simply someone curious about what RISC-V has to offer, you'll find a pressure-free space to learn, build, and connect. All welcome.
+"""
+luma_url = "https://luma.com/5pjeq31g"
+tags = ["open", "meetup", "monthly", "guest-speaker"]
